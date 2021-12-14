@@ -19,6 +19,7 @@ public class LoginController extends AppViewsController {
         this.loginPageLayout = new LoginPageLayout("./src/main/resources/daycare_landing_background.jpg", ApplicationLayout.BACKGROUND_TYPE_IMAGE);
         this.loginPageLayout.setLoginListener((username, password, result) -> {
             //validate session details;
+            result.accept(false, "Invalid username/password");
         });
         return this.loginPageLayout;
     }

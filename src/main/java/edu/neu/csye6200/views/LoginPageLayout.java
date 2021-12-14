@@ -108,11 +108,15 @@ public class LoginPageLayout extends LandingPageLayout {
                     roundedPasswordTextField.requestFocus();
                     return;
                 }
+
                 if (loginListener != null) {
-                    //Show Progress
+                    JDialog dialog = Constants.geLoadingDialog("Test");
+                    dialog.setVisible(true);
                     loginListener.accept(roundedTextField.getText(),
                             roundedPasswordTextField.getActualText(), (result, message) -> {
-                                //Call Success Event
+                                //on result
+                                dialog.setVisible(false);
+                                dialog.dispose();
                                 if (result) LoginPageLayout.this.goToNextPage();
                                 else {
                                     JOptionPane.showMessageDialog(new JFrame(), message, "Error!!",

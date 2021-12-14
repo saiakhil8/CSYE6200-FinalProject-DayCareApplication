@@ -10,5 +10,6 @@ public abstract class Person {
     private String emailId;
     private String password;
     private String dateOfBirth;
-
+    private String parentFullName;
+    private String lastUpdated;
 }
