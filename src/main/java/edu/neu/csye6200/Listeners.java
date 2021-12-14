@@ -8,9 +8,18 @@ public class Listeners {
         void onEvent(int eventType);
     }
 
-    public interface AppControlEventListener{
+    public interface AppControlEventListener {
+        /**
+         * Will be called when user wants to navigate to next page
+         *
+         * @param appViewsController -=
+         * @param <T>
+         */
         <T> void onGoToNextScreenEvent(Class<T> appViewsController);
 
+        /**
+         * Fired when for removing current view from the stack
+         */
         void onBackPressed();
     }
 }
