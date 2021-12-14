@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Consumer;
 
 /**
  * @author SaiAkhil
@@ -22,6 +21,12 @@ public class LoginPageLayout extends LandingPageLayout {
         super(imagePathOrColor, backgroundType);
     }
 
+    /**
+     * Create and Add Components to the current Frame
+     *
+     * @return RightSide View Component
+     * @throws IOException when file is not present
+     */
     @Override
     public Component getRightView() throws IOException {
         JPanel currentPanel = new JPanel(new GridLayout(3, 1, 0, 8));
@@ -46,6 +51,12 @@ public class LoginPageLayout extends LandingPageLayout {
         return currentPanel;
     }
 
+
+    /**
+     * Add TextField and Buttons to the current Frame
+     *
+     * @return component containing login textfields and buttons
+     */
     private Component getLoginFields() {
         //New Panel which acts a root
         JPanel panel = new JPanel(new GridBagLayout());
@@ -100,9 +111,13 @@ public class LoginPageLayout extends LandingPageLayout {
                 if (loginListener != null) {
                     //Show Progress
                     loginListener.accept(roundedTextField.getText(),
-                            roundedPasswordTextField.getActualText(), (result) -> {
+                            roundedPasswordTextField.getActualText(), (result, message) -> {
                                 //Call Success Event
                                 if (result) LoginPageLayout.this.goToNextPage();
+                                else {
+                                    JOptionPane.showMessageDialog(new JFrame(), message, "Error!!",
+                                            JOptionPane.ERROR_MESSAGE);
+                                }
                             });
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Could'nt SignYou In", "Error!!",
@@ -145,9 +160,9 @@ public class LoginPageLayout extends LandingPageLayout {
         return panel;
     }
 
-    private FunctionalUtilities.TriFunction<String, String, Consumer<Boolean>> loginListener;
+    private FunctionalUtilities.TriFunction<String, String, FunctionalUtilities.BiFunction<Boolean, String>> loginListener;
 
-    public void setLoginListener(FunctionalUtilities.TriFunction<String, String, Consumer<Boolean>> listener) {
+    public void setLoginListener(FunctionalUtilities.TriFunction<String, String, FunctionalUtilities.BiFunction<Boolean, String>> listener) {
         this.loginListener = listener;
     }
 
