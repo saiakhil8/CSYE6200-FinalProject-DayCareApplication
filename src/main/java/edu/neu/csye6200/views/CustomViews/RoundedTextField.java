@@ -80,6 +80,8 @@ public class RoundedTextField extends JTextField implements FocusListener {
     public String getActualText() {
         if (actualText != null && !actualText.isEmpty() && actualText.equals(placeHolder) && this.getText().equals(placeHolder)) {
             return "";
+        } else if (actualText == null || actualText.isEmpty()) {
+            return this.getText();
         } else return actualText;
     }
 }
