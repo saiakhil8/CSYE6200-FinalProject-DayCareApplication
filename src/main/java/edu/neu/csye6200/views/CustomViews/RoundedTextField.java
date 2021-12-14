@@ -14,6 +14,8 @@ import java.awt.geom.RoundRectangle2D;
 public class RoundedTextField extends JTextField implements FocusListener {
     private Shape shape;
     private String placeHolder;
+    private boolean isPassword = false;
+    private String actualText = null;
 
     public RoundedTextField(int size) {
         super(size);
@@ -49,10 +51,18 @@ public class RoundedTextField extends JTextField implements FocusListener {
         this.setForeground(Color.GRAY);
     }
 
+    public void setIsPassword(boolean isPassword) {
+        this.isPassword = isPassword;
+    }
+
     @Override
     public void focusGained(FocusEvent e) {
         if (this.getText().equals(placeHolder)) {
+            this.actualText = "";
             this.setText("");
+            this.setForeground(Color.BLACK);
+        } else {
+            this.setText(this.actualText);
             this.setForeground(Color.BLACK);
         }
     }
@@ -61,6 +71,15 @@ public class RoundedTextField extends JTextField implements FocusListener {
     public void focusLost(FocusEvent e) {
         if (this.getText().isEmpty()) {
             this.setPlaceHolder();
+        } else if (this.isPassword) {
+            this.actualText = this.getText();
+            this.setText("*******");
         }
+    }
+
+    public String getActualText() {
+        if (actualText != null && !actualText.isEmpty() && actualText.equals(placeHolder) && this.getText().equals(placeHolder)) {
+            return "";
+        } else return actualText;
     }
 }

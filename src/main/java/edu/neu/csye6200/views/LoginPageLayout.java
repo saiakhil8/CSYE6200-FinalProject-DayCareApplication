@@ -1,6 +1,7 @@
 package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.views.CustomViews.RoundedTextField;
 
 import javax.imageio.ImageIO;
@@ -10,11 +11,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * @author SaiAkhil
  */
 public class LoginPageLayout extends LandingPageLayout {
+
     public LoginPageLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
     }
@@ -33,7 +36,13 @@ public class LoginPageLayout extends LandingPageLayout {
         //Add A New GridBagLayout with 2 Input Fields And Buttons to current panel
         currentPanel.add(this.getLoginFields());
 
-        currentPanel.requestFocus();
+        currentPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                currentPanel.requestFocus();
+            }
+        });
+
         return currentPanel;
     }
 
@@ -47,6 +56,7 @@ public class LoginPageLayout extends LandingPageLayout {
         roundedTextField.setPreferredSize(new Dimension(80, 50));
         roundedTextField.setPlaceHolder("Enter your Email-ID");
         RoundedTextField roundedPasswordTextField = new RoundedTextField(40);
+        roundedPasswordTextField.setIsPassword(true);
         roundedPasswordTextField.setPlaceHolder("Enter your password");
         roundedPasswordTextField.setPreferredSize(new Dimension(80, 50));
 
@@ -69,8 +79,38 @@ public class LoginPageLayout extends LandingPageLayout {
         panel.add(roundedPasswordTextField, gridBagConstraints);
 
         //Create Login Button with required size
-        JButton login = new JButton("Login");
-        login.setPreferredSize(new Dimension(150, 50));
+        JButton loginButton = new JButton("Login");
+        loginButton.setPreferredSize(new Dimension(150, 50));
+        loginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (!Constants.VALIDATE_EMAIL_ADDRESS.apply(roundedTextField.getText())) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Enter a valid Email-Id", "Error!!",
+                            JOptionPane.ERROR_MESSAGE);
+                    roundedTextField.requestFocus();
+                    return;
+                }
+                if (roundedPasswordTextField.getActualText().isEmpty() || roundedPasswordTextField.getActualText().length() < 6) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Password should be atleast 6 characters", "Error!!",
+                            JOptionPane.ERROR_MESSAGE);
+                    roundedPasswordTextField.requestFocus();
+                    return;
+                }
+                if (loginListener != null) {
+                    //Show Progress
+                    loginListener.accept(roundedTextField.getText(),
+                            roundedPasswordTextField.getActualText(), (result) -> {
+                                //Call Success Event
+                                if (result) LoginPageLayout.this.goToNextPage();
+                            });
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(), "Could'nt SignYou In", "Error!!",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
 
         //Create cancel button --Mark:// OnClick triggerGoBack
         JButton cancelButton = new JButton("Cancel");
@@ -79,13 +119,14 @@ public class LoginPageLayout extends LandingPageLayout {
         cancelButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
                 LoginPageLayout.this.onNewEvent(Constants.EVENT_LOGOUT);
             }
         });
 
         //Grid Layout with 2 columns for buttons
         JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 40, 40));
-        buttonsPanel.add(login);
+        buttonsPanel.add(loginButton);
         buttonsPanel.add(cancelButton);
 
         //Update insets to mingle with Inputs
@@ -103,4 +144,11 @@ public class LoginPageLayout extends LandingPageLayout {
         panel.add(buttonsPanel, gridBagConstraints);
         return panel;
     }
+
+    private FunctionalUtilities.TriFunction<String, String, Consumer<Boolean>> loginListener;
+
+    public void setLoginListener(FunctionalUtilities.TriFunction<String, String, Consumer<Boolean>> listener) {
+        this.loginListener = listener;
+    }
+
 }
