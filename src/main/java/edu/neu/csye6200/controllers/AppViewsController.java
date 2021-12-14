@@ -2,7 +2,10 @@ package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 import edu.neu.csye6200.views.ApplicationLayout;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author SaiAkhil
@@ -11,6 +14,7 @@ public abstract class AppViewsController implements Listeners.EventListener {
 
     private ApplicationLayout currentFrame;
     private Listeners.AppControlEventListener appControlListener;
+    private AuthenticationAndSessionManager authenticationAndSessionManager;
 
     public abstract ApplicationLayout getAppPage();
 
@@ -30,6 +34,11 @@ public abstract class AppViewsController implements Listeners.EventListener {
         this.onPagePushedToForeground(appControlListener);
     }
 
+    @PostConstruct
+    public void init() {
+        this.authenticationAndSessionManager = AuthenticationAndSessionManager.getInstance();
+    }
+
     @Override
     public void onEvent(int eventType) {
         if (eventType == Constants.EVENT_NEXT_SCREEN &&
@@ -46,5 +55,9 @@ public abstract class AppViewsController implements Listeners.EventListener {
     protected void onDestroy() {
         this.onPagePushedToBackground();
         this.currentFrame = null;
+    }
+
+    protected int getLoggedInUserType() {
+        return this.authenticationAndSessionManager.getLoggedInUserType();
     }
 }

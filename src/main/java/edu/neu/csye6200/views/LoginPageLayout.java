@@ -114,14 +114,11 @@ public class LoginPageLayout extends LandingPageLayout {
                     dialog.setVisible(true);
                     loginListener.accept(roundedTextField.getText(),
                             roundedPasswordTextField.getActualText(), (result, message) -> {
-                                //on result
                                 dialog.setVisible(false);
                                 dialog.dispose();
-                                if (result) LoginPageLayout.this.goToNextPage();
-                                else {
+                                if (!result)
                                     JOptionPane.showMessageDialog(new JFrame(), message, "Error!!",
                                             JOptionPane.ERROR_MESSAGE);
-                                }
                             });
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Could'nt SignYou In", "Error!!",

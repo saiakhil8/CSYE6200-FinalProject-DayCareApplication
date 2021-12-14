@@ -21,6 +21,12 @@ public class Constants {
     public static final int EVENT_NEXT_SCREEN = 7001;
     public static final int EVENT_LOGOUT = 7099;
 
+    public static final int SESSION_INVALID = 5003;
+    public static final int SESSION_ADMIN = 5012;
+    public static final int SESSION_TEACHER = 5021;
+    public static final int SESSION_PARENT = 5030;
+    public static final int SESSION_FAILED_AUTH = 5004;
+
     public static Function<String, Boolean> VALIDATE_EMAIL_ADDRESS = (emailId) -> {
         Pattern pattern = Pattern.compile("^.+@.+\\..+$");
         return pattern.matcher(emailId).matches();

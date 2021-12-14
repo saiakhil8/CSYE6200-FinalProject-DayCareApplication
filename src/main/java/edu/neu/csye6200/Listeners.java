@@ -1,10 +1,14 @@
 package edu.neu.csye6200;
 
+import edu.neu.csye6200.models.Person;
+
+import java.sql.SQLException;
+
 /**
  * @author SaiAkhil
  */
 public class Listeners {
-    public interface EventListener{
+    public interface EventListener {
         void onEvent(int eventType);
     }
 
@@ -21,5 +25,15 @@ public class Listeners {
          * Fired when for removing current view from the stack
          */
         void onBackPressed();
+    }
+
+    public interface SessionManager {
+        Person validateAdmin(String userName, String password) throws SQLException;
+
+        Person validateTeacher(String userName, String password) throws SQLException;
+
+        Person validateParent(String userName, String password) throws SQLException;
+
+        void onNewSessionEvent(int eventType);
     }
 }

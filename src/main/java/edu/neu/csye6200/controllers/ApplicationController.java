@@ -2,7 +2,11 @@ package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.models.Person;
+import edu.neu.csye6200.repositories.AdminRepository;
+import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -10,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.sql.SQLException;
 import java.util.Stack;
 
 /**
@@ -17,7 +22,7 @@ import java.util.Stack;
  */
 @Service
 @Scope("singleton")
-public class ApplicationController implements ApplicationContextAware, Listeners.AppControlEventListener {
+public class ApplicationController implements ApplicationContextAware, Listeners.AppControlEventListener, Listeners.SessionManager {
 
     @Value("${application.name}")
     private String appName;
@@ -29,6 +34,18 @@ public class ApplicationController implements ApplicationContextAware, Listeners
     private int preferredWidth;
     @Value("${application.preferredHeight}")
     private int preferredHeight;
+
+    //Session Aware -- OnLogin Page Will be cleared;
+    private boolean removeLoginPage = false;
+
+    @Autowired
+    private AdminRepository adminRepository;
+
+    private final AuthenticationAndSessionManager authenticationAndSessionManager;
+
+    {
+        this.authenticationAndSessionManager = AuthenticationAndSessionManager.getInstance();
+    }
 
     /**
      * Used to maintain UI Frames Stack
@@ -49,6 +66,7 @@ public class ApplicationController implements ApplicationContextAware, Listeners
      */
     @PostConstruct
     public void onControllerCreated(){
+        this.authenticationAndSessionManager.setSessionManagementListener(this);
         Constants.APP_PREFERRED_HEIGHT = this.preferredHeight;
         Constants.APP_PREFERRED_WIDTH = this.preferredWidth;
         Constants.APP_NAME = this.appName;
@@ -79,4 +97,38 @@ public class ApplicationController implements ApplicationContextAware, Listeners
         this.applicationStack.peek().onPagePushedToForeground(this);
     }
 
+    private void onLogin() {
+        this.applicationStack.pop().onDestroy();
+        switch (authenticationAndSessionManager.getLoggedInUserType()) {
+            case Constants.SESSION_ADMIN:
+                this.onGoToNextScreenEvent(AdminDashboardController.class);
+            default:
+                this.onGoToNextScreenEvent(LandingPageController.class);
+        }
+    }
+
+    @Override
+    public Person validateAdmin(String userName, String password) throws SQLException {
+        return adminRepository.getByEmailIdAndPassword(userName, password);
+    }
+
+    @Override
+    public Person validateTeacher(String userName, String password) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Person validateParent(String userName, String password) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void onNewSessionEvent(int eventType) {
+        //do something
+        if (eventType == Constants.SESSION_INVALID) {
+            //do somthing
+        } else if (eventType > 5010 && eventType < 5999) {
+            this.onLogin();
+        }
+    }
 }
