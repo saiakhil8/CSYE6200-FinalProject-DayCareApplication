@@ -13,7 +13,6 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class RoundedTextField extends JTextField implements FocusListener {
     private Shape shape;
-    private boolean isPassword = false;
     private String placeHolder;
 
     public RoundedTextField(int size) {
