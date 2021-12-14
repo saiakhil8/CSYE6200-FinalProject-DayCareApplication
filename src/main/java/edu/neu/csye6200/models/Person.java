@@ -30,8 +30,10 @@ public abstract class Person {
     private String lastUpdated;
     @Column(name = "last_login", nullable = false)
     private String lastLogin;
-    @Column(name = "address", nullable = true)
+    @Column(name = "address")
     private String address;
+    @Column(name = "age", nullable = false)
+    private int age;
 
     public int getId() {
         return id;
