@@ -2,14 +2,14 @@ package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
-import edu.neu.csye6200.views.ApplicationView;
+import edu.neu.csye6200.views.ApplicationLayout;
 
 /**
  * @author SaiAkhil
  */
 public abstract class AppViewsController implements Listeners.EventListener {
 
-    private final ApplicationView currentFrame;
+    private final ApplicationLayout currentFrame;
     private Listeners.AppControlEventListener appControlListener;
 
     public AppViewsController(){
@@ -17,7 +17,7 @@ public abstract class AppViewsController implements Listeners.EventListener {
         this.currentFrame.setEventListener(this);
     }
 
-    public abstract ApplicationView getAppPage();
+    public abstract ApplicationLayout getAppPage();
 
     protected void onPagePushedToBackground(){
         this.currentFrame.onLostFocus();

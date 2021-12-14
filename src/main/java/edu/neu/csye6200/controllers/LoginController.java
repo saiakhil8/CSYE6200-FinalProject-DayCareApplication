@@ -1,6 +1,6 @@
 package edu.neu.csye6200.controllers;
 
-import edu.neu.csye6200.views.ApplicationView;
+import edu.neu.csye6200.views.ApplicationLayout;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +13,7 @@ public class LoginController extends AppViewsController {
     }
 
     @Override
-    public ApplicationView getAppPage() {
+    public ApplicationLayout getAppPage() {
         return null;
     }
 }

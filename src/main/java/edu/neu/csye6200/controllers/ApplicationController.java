@@ -58,6 +58,7 @@ public class ApplicationController implements ApplicationContextAware, Listeners
 
     private void pushAndShowPage(AppViewsController controller){
         if (!this.applicationStack.isEmpty()) return;
+        this.applicationStack.peek().onPagePushedToBackground();
         this.applicationStack.push(controller);
         this.applicationStack.peek().onPagePushedToForeground(this);
     }
@@ -72,4 +73,10 @@ public class ApplicationController implements ApplicationContextAware, Listeners
     public <T> void onGoToNextScreenEvent(Class<T> appViewsController) {
         this.pushAndShowPage((AppViewsController) this.applicationContext.getBean(appViewsController));
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
 }

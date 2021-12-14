@@ -2,9 +2,7 @@ package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,11 +10,11 @@ import java.awt.*;
 /**
  * @author SaiAkhil
  */
-public abstract class ApplicationView extends JFrame {
+public abstract class ApplicationLayout extends JFrame {
 
     private Listeners.EventListener eventListener;
 
-    public ApplicationView(@NonNull String imagePathOrColor, int backgroundType) {
+    public ApplicationLayout(@NonNull String imagePathOrColor, int backgroundType) {
         super();
         this.setTitle(Constants.APP_NAME);
         this.setPreferredSize(new Dimension(Constants.APP_PREFERRED_WIDTH, Constants.APP_PREFERRED_HEIGHT));

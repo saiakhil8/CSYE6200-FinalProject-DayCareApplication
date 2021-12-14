@@ -1,7 +1,5 @@
 package edu.neu.csye6200.views;
 
-import edu.neu.csye6200.Listeners;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -15,11 +13,11 @@ import java.util.TimerTask;
 /**
  * @author SaiAkhil
  */
-public class LandingPageFrame extends ApplicationView {
+public class LandingPageLayout extends ApplicationLayout {
 
     private JPanel mainViewPanel;
 
-    public LandingPageFrame(String imagePathOrColor, int backgroundType) {
+    public LandingPageLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
     }
 
@@ -41,7 +39,7 @@ public class LandingPageFrame extends ApplicationView {
 
     }
 
-    private Component getRightView() throws IOException {
+    public Component getRightView() throws IOException {
         JPanel currentPanel = new JPanel(new GridLayout(2, 1, 0, 16));
         currentPanel.setOpaque(false);
         JLabel iconLabel = new JLabel(new ImageIcon(ImageIO.read(new File("./src/main/resources/icons/login.png"))));
@@ -58,7 +56,7 @@ public class LandingPageFrame extends ApplicationView {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 timer.cancel();
-                LandingPageFrame.this.goToNextPage();
+                LandingPageLayout.this.goToNextPage();
             }
 
             @Override
