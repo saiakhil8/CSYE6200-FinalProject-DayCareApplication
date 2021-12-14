@@ -9,29 +9,40 @@ import edu.neu.csye6200.views.ApplicationLayout;
  */
 public abstract class AppViewsController implements Listeners.EventListener {
 
-    private final ApplicationLayout currentFrame;
+    private ApplicationLayout currentFrame;
     private Listeners.AppControlEventListener appControlListener;
-
-    public AppViewsController(){
-        this.currentFrame = this.getAppPage();
-        this.currentFrame.setEventListener(this);
-    }
 
     public abstract ApplicationLayout getAppPage();
 
-    protected void onPagePushedToBackground(){
+    protected void onPagePushedToBackground() {
         this.currentFrame.onLostFocus();
         this.appControlListener = null;
     }
 
-    protected void onPagePushedToForeground(Listeners.AppControlEventListener appControlListener){
+    protected void onPagePushedToForeground(Listeners.AppControlEventListener appControlListener) {
         this.appControlListener = appControlListener;
         this.currentFrame.onGainedFocus();
     }
 
+    protected void onCreate(Listeners.AppControlEventListener appControlListener) {
+        this.currentFrame = this.getAppPage();
+        this.currentFrame.setEventListener(this);
+        this.onPagePushedToForeground(appControlListener);
+    }
+
     @Override
     public void onEvent(int eventType) {
-        if (eventType== Constants.EVENT_NEXT_SCREEN &&
-                this.appControlListener!=null) this.appControlListener.onGoToNextScreenEvent(LoginController.class);
+        if (eventType == Constants.EVENT_NEXT_SCREEN &&
+                this.appControlListener != null) this.appControlListener.onGoToNextScreenEvent(LoginController.class);
+        else if (eventType == Constants.EVENT_LOGOUT) this.onBackPressed();
+    }
+
+    protected void onBackPressed() {
+        this.appControlListener.onBackPressed();
+    }
+
+    protected void onDestroy() {
+        this.onPagePushedToBackground();
+        this.currentFrame = null;
     }
 }

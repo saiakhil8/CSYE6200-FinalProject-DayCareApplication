@@ -2,6 +2,7 @@ package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.views.CustomViews.ImageView;
 import org.springframework.lang.NonNull;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public abstract class ApplicationLayout extends JFrame {
         this.setContentPane(new ImageView((backgroundType == BACKGROUND_TYPE_IMAGE)
                 ? ImageView.IMAGE_PAINTER : ImageView.GRADIENT_PAINTER,
                 imagePathOrColor));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         Component currentRootLayout = this.getMainLayoutComponent();
         currentRootLayout.setPreferredSize(this.getPreferredSize());
         this.getContentPane().add(currentRootLayout);
@@ -39,12 +41,16 @@ public abstract class ApplicationLayout extends JFrame {
         this.setVisible(false);
     }
 
-    public void setEventListener(Listeners.EventListener eventListener){
+    public void setEventListener(Listeners.EventListener eventListener) {
         this.eventListener = eventListener;
     }
 
-    protected void goToNextPage(){
-        if (this.eventListener!=null) this.eventListener.onEvent(Constants.EVENT_NEXT_SCREEN);
+    protected void goToNextPage() {
+        this.onNewEvent(Constants.EVENT_NEXT_SCREEN);
+    }
+
+    protected void onNewEvent(int eventType) {
+        if (this.eventListener != null) this.eventListener.onEvent(eventType);
     }
 
     public static int BACKGROUND_TYPE_IMAGE = 11051;

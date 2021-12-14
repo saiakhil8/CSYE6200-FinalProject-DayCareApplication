@@ -1,6 +1,7 @@
 package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.views.ApplicationLayout;
+import edu.neu.csye6200.views.LoginPageLayout;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,12 +9,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginController extends AppViewsController {
-    public LoginController(){
-        System.out.println("This");
-    }
-
     @Override
     public ApplicationLayout getAppPage() {
-        return null;
+        return new LoginPageLayout("./src/main/resources/daycare_landing_background.jpg", ApplicationLayout.BACKGROUND_TYPE_IMAGE);
     }
 }
