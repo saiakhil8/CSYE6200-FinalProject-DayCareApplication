@@ -255,7 +255,6 @@ public class AddTeacherLayout extends NavBarLayout {
     @Override
     protected void onLeftButtonClicked() {
         super.onLeftButtonClicked();
-        System.out.println("Clicked");
     }
 
 }

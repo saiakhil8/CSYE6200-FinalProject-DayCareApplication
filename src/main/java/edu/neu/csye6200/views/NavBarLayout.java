@@ -63,7 +63,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
      */
     private void setNavBarTitle(@Nullable String navBarTitle) {
         if (navBarTitle == null) return;
-        JLabel jLabel = new JLabel(navBarTitle.toUpperCase() + "       ");
+        JLabel jLabel = new JLabel(navBarTitle.toUpperCase() + "                    ");
         jLabel.setPreferredSize(new Dimension(80, 40));
         jLabel.setHorizontalAlignment(SwingUtilities.CENTER);
         jLabel.setForeground(Color.white);
