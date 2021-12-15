@@ -11,6 +11,14 @@ public class Student extends Person {
     @Column(name = "gpa")
     private double gpa;
 
+    public Student() {
+    }
+
+    public Student(String firstName, String lastName, String emailId, String dateOfBirth, String parentFullName, String address, double gpa) {
+        super(firstName, lastName, emailId, dateOfBirth, parentFullName, address);
+        this.gpa = gpa;
+    }
+
 
     public double getGpa() {
         return gpa;

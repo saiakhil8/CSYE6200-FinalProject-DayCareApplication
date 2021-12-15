@@ -103,7 +103,7 @@ public class LoginPageLayout extends LandingPageLayout {
                     roundedTextField.requestFocus();
                     return;
                 }
-                if (roundedPasswordTextField.getActualText().isEmpty() || roundedPasswordTextField.getActualText().length() < 6) {
+                if (roundedPasswordTextField.getPasswordText().isEmpty() || roundedPasswordTextField.getPasswordText().length() < 6) {
                     JOptionPane.showMessageDialog(new JFrame(), "Password should be atleast 6 characters", "Error!!",
                             JOptionPane.ERROR_MESSAGE);
                     roundedPasswordTextField.requestFocus();
@@ -114,7 +114,7 @@ public class LoginPageLayout extends LandingPageLayout {
                     JDialog dialog = Utils.geLoadingDialog("Test");
                     dialog.setVisible(true);
                     loginListener.accept(roundedTextField.getText(),
-                            roundedPasswordTextField.getActualText(), (result, message) -> {
+                            roundedPasswordTextField.getPasswordText(), (result, message) -> {
                                 dialog.setVisible(false);
                                 dialog.dispose();
                                 if (!result)

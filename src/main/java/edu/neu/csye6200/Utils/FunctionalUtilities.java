@@ -13,4 +13,9 @@ public class FunctionalUtilities {
     public interface TriFunction<One, Two, Three> {
         void accept(One one, Two two, Three three);
     }
+
+    @FunctionalInterface
+    public interface BiFunctionWithReturnType<One, Two, Three> {
+        Three accept(One one, Two two);
+    }
 }

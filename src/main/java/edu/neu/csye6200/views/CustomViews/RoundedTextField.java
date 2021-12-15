@@ -77,11 +77,23 @@ public class RoundedTextField extends JTextField implements FocusListener {
         }
     }
 
-    public String getActualText() {
+    public String getPasswordText() {
         if (actualText != null && !actualText.isEmpty() && actualText.equals(placeHolder) && this.getText().equals(placeHolder)) {
             return "";
         } else if (actualText == null || actualText.isEmpty()) {
             return this.getText();
         } else return actualText;
     }
+
+    public String getActualText() {
+        String text = super.getText();
+        return (text.equalsIgnoreCase(placeHolder) ? "" : text);
+    }
+
+    public void reset() {
+        this.setText("");
+        this.actualText = "";
+        this.setPlaceHolder(this.placeHolder);
+    }
+
 }

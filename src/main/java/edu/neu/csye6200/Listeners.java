@@ -10,6 +10,8 @@ import java.sql.SQLException;
 public class Listeners {
     public interface EventListener {
         void onEvent(int eventType);
+
+        int getIntegerData(int dataType);
     }
 
     public interface AppControlEventListener {
@@ -36,4 +38,5 @@ public class Listeners {
 
         void onNewSessionEvent(int eventType);
     }
+
 }

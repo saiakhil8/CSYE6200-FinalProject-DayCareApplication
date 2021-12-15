@@ -83,6 +83,7 @@ public abstract class ApplicationLayout extends JFrame {
 
     /**
      * Will be called once UI is moved from initial thread to EventThread
+     * Set All Listeners and class variables here
      */
     protected void onCreate() {
     }

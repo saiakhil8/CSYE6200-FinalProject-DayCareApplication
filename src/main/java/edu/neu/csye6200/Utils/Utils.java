@@ -10,6 +10,7 @@ import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -80,12 +81,13 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         assert bDate != null;
         calendar.setTime(bDate);
-        LocalDate birthday = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        LocalDate birthday = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         Period p = Period.between(birthday, today);
         return p.getYears();
     };
 
     public static Function<String, String> GENERATE_PASSWORD = (string) -> {
+        if (string == null) return UUID.randomUUID().toString();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < 8; i++) {

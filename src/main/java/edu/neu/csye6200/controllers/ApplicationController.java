@@ -102,6 +102,7 @@ public class ApplicationController implements ApplicationContextAware, Listeners
         switch (authenticationAndSessionManager.getLoggedInUserType()) {
             case Constants.SESSION_ADMIN:
                 this.onGoToNextScreenEvent(AdminDashboardController.class);
+                break;
             default:
                 this.onGoToNextScreenEvent(LandingPageController.class);
         }

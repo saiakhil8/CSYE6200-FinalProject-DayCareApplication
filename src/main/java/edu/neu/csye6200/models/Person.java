@@ -1,10 +1,13 @@
 package edu.neu.csye6200.models;
 
 
+import edu.neu.csye6200.Utils.Utils;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.Date;
 
 /**
  * @author SaiAkhil
@@ -28,7 +31,9 @@ public abstract class Person {
     private String parentFullName;
     @Column(name = "last_updated", nullable = false)
     private String lastUpdated;
-    @Column(name = "last_login", nullable = false)
+    @Column(name = "created_on", nullable = false)
+    private String createdOn;
+    @Column(name = "last_login", nullable = true)
     private String lastLogin;
     @Column(name = "address")
     private String address;
@@ -118,15 +123,32 @@ public abstract class Person {
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String emailId, String password, String dateOfBirth, String parentFullName, String lastUpdated, String lastLogin, String address) {
+    public Person(String firstName, String lastName, String emailId, String dateOfBirth, String parentFullName, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailId = emailId;
-        this.password = password;
+        this.password = Utils.GENERATE_PASSWORD.apply(null);
         this.dateOfBirth = dateOfBirth;
         this.parentFullName = parentFullName;
-        this.lastUpdated = lastUpdated;
-        this.lastLogin = lastLogin;
+        this.lastUpdated = Utils.GET_DATE_STRING.apply(new Date());
+        this.createdOn = this.lastUpdated;
         this.address = address;
+        this.age = Utils.GET_AGE_FROM_DOB.apply(dateOfBirth);
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
     }
 }

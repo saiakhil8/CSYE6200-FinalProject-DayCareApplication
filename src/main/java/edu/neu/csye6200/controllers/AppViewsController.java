@@ -60,4 +60,17 @@ public abstract class AppViewsController implements Listeners.EventListener {
     protected int getLoggedInUserType() {
         return this.authenticationAndSessionManager.getLoggedInUserType();
     }
+
+    @Override
+    public int getIntegerData(int dataType) {
+        return 0;
+    }
+
+    protected ApplicationLayout getCurrentFrameLayout() {
+        return this.currentFrame;
+    }
+
+    protected ApplicationLayout getCurrentFrame() {
+        return this.currentFrame;
+    }
 }
