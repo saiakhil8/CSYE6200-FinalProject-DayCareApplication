@@ -2,6 +2,7 @@ package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
+import edu.neu.csye6200.Utils.Utils;
 import edu.neu.csye6200.views.CustomViews.RoundedTextField;
 
 import javax.imageio.ImageIO;
@@ -96,7 +97,7 @@ public class LoginPageLayout extends LandingPageLayout {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (!Constants.VALIDATE_EMAIL_ADDRESS.apply(roundedTextField.getText())) {
+                if (!Utils.VALIDATE_EMAIL_ADDRESS.apply(roundedTextField.getText())) {
                     JOptionPane.showMessageDialog(new JFrame(), "Enter a valid Email-Id", "Error!!",
                             JOptionPane.ERROR_MESSAGE);
                     roundedTextField.requestFocus();
@@ -110,7 +111,7 @@ public class LoginPageLayout extends LandingPageLayout {
                 }
 
                 if (loginListener != null) {
-                    JDialog dialog = Constants.geLoadingDialog("Test");
+                    JDialog dialog = Utils.geLoadingDialog("Test");
                     dialog.setVisible(true);
                     loginListener.accept(roundedTextField.getText(),
                             roundedPasswordTextField.getActualText(), (result, message) -> {

@@ -1,10 +1,5 @@
 package edu.neu.csye6200.Utils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-
 /**
  * @author SaiAkhil
  */
@@ -40,21 +35,14 @@ public class Constants {
         return APP_ICON_DEFAULT_PATH + name;
     }
 
-    public static Function<String, Boolean> VALIDATE_EMAIL_ADDRESS = (emailId) -> {
-        Pattern pattern = Pattern.compile("^.+@.+\\..+$");
-        return pattern.matcher(emailId).matches();
-    };
-
-    public static JDialog geLoadingDialog(String message) {
-        JDialog downloadingDialog = new JDialog((JFrame) null, "Please Wait..", false);
-        downloadingDialog.setLayout(new FlowLayout(FlowLayout.CENTER));
-        downloadingDialog.setUndecorated(true);
-        Icon myImgIcon = new ImageIcon("./src/main/resources/loading-gif.gif");
-        JLabel imageLbl = new JLabel(myImgIcon);
-        downloadingDialog.add(imageLbl, BorderLayout.CENTER);
-        downloadingDialog.setSize(400, 400);
-        downloadingDialog.setVisible(true);
-        return downloadingDialog;
+    /**
+     * Generate and return default image path
+     *
+     * @param name of the image required
+     * @return complete path of the image that can be used to generate BG
+     */
+    public static String getImageFromName(String name) {
+        return APP_DEFAULT_RESOURCES_PATH + name;
     }
 
 }
