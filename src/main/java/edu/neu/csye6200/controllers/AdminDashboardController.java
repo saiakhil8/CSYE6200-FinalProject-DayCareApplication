@@ -25,6 +25,25 @@ public class AdminDashboardController extends AppViewsController {
     }
 
     @Override
+    public void onEvent(int eventType) {
+        super.onEvent(eventType);
+    }
+
+    @Override
+    protected void processEvent(int eventType, Listeners.AppControlEventListener appControlListener) {
+        switch (eventType) {
+            case EVENT_GOTO_ADD_STUDENT: {
+                appControlListener.onGoToNextScreenEvent(AddStudentController.class);
+                break;
+            }
+            case EVENT_GOTO_ADD_TEACHER: {
+                appControlListener.onGoToNextScreenEvent(AddTeacherController.class);
+                break;
+            }
+        }
+    }
+
+    @Override
     protected void goToNextScreen(Listeners.AppControlEventListener appControlListener) {
 
     }
@@ -33,6 +52,10 @@ public class AdminDashboardController extends AppViewsController {
     public static final int REQUEST_TYPE_TEACHER_COUNT = 8002;
     public static final int REQUEST_TYPE_CLASSROOM_COUNT = 8003;
     public static final int REQUEST_TYPE_GROUPS_COUNT = 8003;
+    public static final int EVENT_GOTO_ADD_TEACHER = 7002;
+    public static final int EVENT_GOTO_ADD_STUDENT = 7003;
+    public static final int EVENT_GOTO_VIEW_STUDENT = 7004;
+    public static final int EVENT_GOTO_VIEW_TEACHER = 7005;
 
     @Override
     public int getIntegerData(int dataType) {
