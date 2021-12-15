@@ -27,6 +27,19 @@ public class Constants {
     public static final int SESSION_PARENT = 5030;
     public static final int SESSION_FAILED_AUTH = 5004;
 
+    private static final String APP_DEFAULT_RESOURCES_PATH = "./src/main/resources/";
+    private static final String APP_ICON_DEFAULT_PATH = APP_DEFAULT_RESOURCES_PATH + "icons/";
+
+    /**
+     * Generate and return default icon path
+     *
+     * @param name of the icon required
+     * @return complete path of the icon that can be used to generate ImageIcon
+     */
+    public static String getIconPathFromName(String name) {
+        return APP_ICON_DEFAULT_PATH + name;
+    }
+
     public static Function<String, Boolean> VALIDATE_EMAIL_ADDRESS = (emailId) -> {
         Pattern pattern = Pattern.compile("^.+@.+\\..+$");
         return pattern.matcher(emailId).matches();
@@ -43,7 +56,5 @@ public class Constants {
         downloadingDialog.setVisible(true);
         return downloadingDialog;
     }
-
-    ;
 
 }
