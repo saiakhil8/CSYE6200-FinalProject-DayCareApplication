@@ -39,6 +39,9 @@ public abstract class AppViewsController implements Listeners.EventListener {
         this.authenticationAndSessionManager = AuthenticationAndSessionManager.getInstance();
     }
 
+    protected void processEvent(int eventType, Listeners.AppControlEventListener appControlListener) {
+    }
+
     @Override
     public void onEvent(int eventType) {
         if (eventType == Constants.EVENT_NEXT_SCREEN &&
@@ -46,6 +49,7 @@ public abstract class AppViewsController implements Listeners.EventListener {
         else if (eventType == Constants.EVENT_GO_BACK) {
             this.onBackPressed();
         } else if (eventType == Constants.EVENT_LOGOUT) ;
+        else this.processEvent(eventType, appControlListener);
     }
 
     protected abstract void goToNextScreen(Listeners.AppControlEventListener appControlListener);
