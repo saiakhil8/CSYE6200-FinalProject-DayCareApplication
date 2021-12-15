@@ -48,7 +48,7 @@ public abstract class AppViewsController implements Listeners.EventListener {
                 this.appControlListener != null) this.goToNextScreen(this.appControlListener);
         else if (eventType == Constants.EVENT_GO_BACK) {
             this.onBackPressed();
-        } else if (eventType == Constants.EVENT_LOGOUT) ;
+        } else if (eventType == Constants.EVENT_LOGOUT) this.authenticationAndSessionManager.logOut();
         else this.processEvent(eventType, appControlListener);
     }
 
