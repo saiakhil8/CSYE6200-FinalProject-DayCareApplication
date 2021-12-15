@@ -63,7 +63,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
      */
     private void setNavBarTitle(@Nullable String navBarTitle) {
         if (navBarTitle == null) return;
-        JLabel jLabel = new JLabel(navBarTitle.toUpperCase());
+        JLabel jLabel = new JLabel(navBarTitle.toUpperCase() + "       ");
         jLabel.setPreferredSize(new Dimension(80, 40));
         jLabel.setHorizontalAlignment(SwingUtilities.CENTER);
         jLabel.setForeground(Color.white);
@@ -90,9 +90,9 @@ public abstract class NavBarLayout extends ApplicationLayout {
         if (path == null) return;
         JPanel jPanel = new JPanel(new GridBagLayout());
         jPanel.setOpaque(false);
-        jPanel.setPreferredSize(new Dimension(60, 80));
+        jPanel.setPreferredSize(new Dimension(158, 80));
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(2, 16, 2, 8);
+        gridBagConstraints.insets = new Insets(2, 48, 2, 0);
         JLabel iconLabel = null;
         try {
             iconLabel = new JLabel(new ImageIcon(ImageIO.read(new File((path)))));
@@ -169,6 +169,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
      * Called when left side button is clicked
      */
     protected void onLeftButtonClicked() {
+        this.eventListener.onEvent(Constants.EVENT_GO_BACK);
     }
 
     ;
@@ -178,7 +179,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
      * By default logout event will be triggered {Override for changing this event trigger}
      */
     protected void onRightButtonClicked() {
-        this.eventListener.onEvent(Constants.EVENT_GO_BACK);
+        this.eventListener.onEvent(Constants.EVENT_LOGOUT);
     }
 
     ;
