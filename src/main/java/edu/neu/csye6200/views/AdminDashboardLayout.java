@@ -24,6 +24,7 @@ public class AdminDashboardLayout extends NavBarLayout {
 
     @Override
     protected void initComponents() {
+        super.initComponents();
         JPanel mainAppLayout = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         mainAppLayout.setPreferredSize(new Dimension(Constants.APP_PREFERRED_WIDTH, Constants.APP_PREFERRED_HEIGHT - 480));
         mainAppLayout.setOpaque(false);
@@ -34,6 +35,7 @@ public class AdminDashboardLayout extends NavBarLayout {
 
     @Override
     protected void onCreate() {
+        super.onCreate();
         JPanel currentPanel = new JPanel(new GridLayout(1, 3, 24, 24));
         currentPanel.setPreferredSize(new Dimension(500, 120));
         currentPanel.add(this.getDashBoardCard("Students", this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_STUDENT_COUNT)));

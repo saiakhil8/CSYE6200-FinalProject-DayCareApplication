@@ -14,6 +14,7 @@ public class Constants {
     public static String APP_BACKGROUND = "#0391F6";
 
     public static final int EVENT_NEXT_SCREEN = 7001;
+    public static final int EVENT_GO_BACK = 7019;
     public static final int EVENT_LOGOUT = 7099;
 
     public static final int SESSION_INVALID = 5003;

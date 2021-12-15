@@ -47,6 +47,11 @@ public class AuthenticationAndSessionManager {
         this.sessionManagementListener = sessionManagementListener;
     }
 
+    public void logOut() {
+        this.currentPerson = null;
+        this.sessionManagementListener.onNewSessionEvent(Constants.EVENT_LOGOUT);
+    }
+
     public int getLoggedInUserType() {
         if (currentPerson == null) return Constants.SESSION_INVALID;
         else if (currentPerson instanceof Admin) return Constants.SESSION_ADMIN;

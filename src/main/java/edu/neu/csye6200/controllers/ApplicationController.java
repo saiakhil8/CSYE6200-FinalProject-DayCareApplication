@@ -123,11 +123,18 @@ public class ApplicationController implements ApplicationContextAware, Listeners
         return null;
     }
 
+    private void logoutUser() {
+        for (int i = 0; i < this.applicationStack.size() - 1; i++) {
+            this.applicationStack.pop().onDestroy();
+        }
+        this.applicationStack.peek().onPagePushedToForeground(this);
+    }
+
     @Override
     public void onNewSessionEvent(int eventType) {
         //do something
-        if (eventType == Constants.SESSION_INVALID) {
-            //do somthing
+        if (eventType == Constants.SESSION_INVALID || eventType == Constants.EVENT_LOGOUT) {
+            this.logoutUser();
         } else if (eventType > 5010 && eventType < 5999) {
             this.onLogin();
         }

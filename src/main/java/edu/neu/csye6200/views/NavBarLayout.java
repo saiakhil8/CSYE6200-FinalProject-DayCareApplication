@@ -178,7 +178,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
      * By default logout event will be triggered {Override for changing this event trigger}
      */
     protected void onRightButtonClicked() {
-        this.eventListener.onEvent(Constants.EVENT_LOGOUT);
+        this.eventListener.onEvent(Constants.EVENT_GO_BACK);
     }
 
     ;

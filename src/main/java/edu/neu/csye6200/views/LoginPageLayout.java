@@ -137,7 +137,7 @@ public class LoginPageLayout extends LandingPageLayout {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                LoginPageLayout.this.onNewEvent(Constants.EVENT_LOGOUT);
+                LoginPageLayout.this.onNewEvent(Constants.EVENT_GO_BACK);
             }
         });
 
