@@ -3,6 +3,7 @@ package edu.neu.csye6200.views;
 import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.Utils.Utils;
+import edu.neu.csye6200.factories.TeacherFactory;
 import edu.neu.csye6200.models.Person;
 import edu.neu.csye6200.models.Teacher;
 import edu.neu.csye6200.views.CustomViews.RoundedTextField;
@@ -209,14 +210,15 @@ public class AddTeacherLayout extends NavBarLayout {
     }
 
     protected void addToDatabase() {
-        this.addToDatabase(new Teacher(this.firstNameTextField.getActualText(),
+        Person person = TeacherFactory.getInstance().getObject(this.firstNameTextField.getActualText(),
                 this.lastNameTextField.getActualText(),
                 this.emailTextField.getActualText(),
                 this.dobTextField.getActualText(),
                 this.parentsNameTextField.getActualText(),
-                this.addressTextField.getActualText(),
-                Utils.parseInteger(this.creditsTextField.getActualText()),
-                Utils.parseInteger(this.hourlyWageTextField.getActualText())));
+                this.addressTextField.getActualText());
+        ((Teacher) person).setCredits(Utils.parseInteger(this.creditsTextField.getActualText()));
+        ((Teacher) person).setHourlyWage(Utils.parseInteger(this.hourlyWageTextField.getActualText()));
+        this.addToDatabase(person);
     }
 
     protected void addToDatabase(Person person) {
