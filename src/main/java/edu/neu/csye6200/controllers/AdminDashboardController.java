@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminDashboardController extends AppViewsController {
 
-
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
@@ -66,6 +65,10 @@ public class AdminDashboardController extends AppViewsController {
                 appControlListener.onGoToNextScreenEvent(ClassRulesCrudController.class);
                 break;
             }
+            case EVENT_GOTO_CLASS_ROOMS: {
+                appControlListener.onGoToNextScreenEvent(ViewAllClassRoomsController.class);
+                break;
+            }
         }
     }
 
@@ -86,11 +89,12 @@ public class AdminDashboardController extends AppViewsController {
     public static final int EVENT_GOTO_VIEW_ADMIN = 7006;
     public static final int EVENT_GOTO_ADD_ADMIN = 7007;
     public static final int EVENT_GOTO_CLASS_RULES = 7008;
+    public static final int EVENT_GOTO_CLASS_ROOMS = 7009;
 
     @Override
     protected void onPagePushedToForeground(Listeners.AppControlEventListener appControlListener) {
         super.onPagePushedToForeground(appControlListener);
-        ((AdminDashboardLayout) this.getCurrentFrame()).reFreshCards();
+        ((AdminDashboardLayout) this.getCurrentFrame()).refreshCards();
     }
 
     @Override

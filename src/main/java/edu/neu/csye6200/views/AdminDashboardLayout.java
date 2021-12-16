@@ -7,15 +7,12 @@ import edu.neu.csye6200.views.CustomViews.DashboardCard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * @author SaiAkhil
  */
-public class AdminDashboardLayout extends NavBarLayout implements MouseListener {
+public class AdminDashboardLayout extends DashboardLayout {
 
-    private JPanel mainAppLayout;
-    private JPanel leftSidePanel;
     private JLabel addTeachersLabel;
     private JLabel addStudentsLabel;
     private JLabel addAdminsLabel;
@@ -23,8 +20,8 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     private JLabel viewTeachersLabel;
     private JLabel viewAdminsLabel;
     private JLabel logoutLabel;
-    private JLabel homeLabel;
     private JLabel classRules;
+    private JLabel classRooms;
     private DashboardCard teacherCountCard;
     private DashboardCard studentCountCard;
     private DashboardCard classRoomCountCard;
@@ -40,21 +37,9 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         return "Admin Dashboard";
     }
 
-    @Override
-    protected void initComponents() {
-        super.initComponents();
-        JPanel mainAppLayout = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        mainAppLayout.setPreferredSize(new Dimension(Constants.APP_PREFERRED_WIDTH, Constants.APP_PREFERRED_HEIGHT - 480));
-        mainAppLayout.setOpaque(false);
-        this.mainPanel.add(mainAppLayout, BorderLayout.LINE_START);
-        this.setUpLeftSideMenu(mainAppLayout);
-        this.setLeftComponent(Constants.getIconPathFromName("list.png"), "Menu");
-        this.addItemsToLeftMenu();
-        this.mainAppLayout = mainAppLayout;
-        this.setUpCards();
-    }
 
-    private void setUpCards() {
+    @Override
+    protected void setUpCards() {
         JPanel currentPanel = new JPanel(new GridBagLayout());
         currentPanel.setOpaque(false);
         currentPanel.setPreferredSize(new Dimension(Constants.APP_PREFERRED_WIDTH - 800, Constants.APP_PREFERRED_HEIGHT - 200));
@@ -92,13 +77,9 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         this.mainAppLayout.add(currentPanel);
     }
 
-    private void addItemsToLeftMenu() {
-        this.leftSidePanel.add(this.getSpaceComponent());
-        this.homeLabel = this.getMenuJLabels("Home");
-        homeLabel.setFont(new Font("Nunito", Font.BOLD, 18));
-        homeLabel.setForeground(Color.decode("#F33E5B"));
-        homeLabel.addMouseListener(null);
-        this.leftSidePanel.add(homeLabel);
+    @Override
+    protected void addItemsToLeftMenu() {
+        super.addItemsToLeftMenu();
         this.leftSidePanel.add(this.getSpaceComponent());
         this.addTeachersLabel = this.getMenuJLabels("Add Teachers");
         this.leftSidePanel.add(this.addTeachersLabel);
@@ -121,31 +102,28 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         this.classRules = this.getMenuJLabels("Class Rules");
         this.leftSidePanel.add(this.classRules);
         this.leftSidePanel.add(this.getSpaceComponent());
+        this.classRooms = this.getMenuJLabels("Class Rooms");
+        this.leftSidePanel.add(this.classRooms);
+        this.leftSidePanel.add(this.getSpaceComponent());
         this.logoutLabel = this.getMenuJLabels("Logout");
         this.leftSidePanel.add(this.logoutLabel);
     }
 
-    private Component getSpaceComponent() {
-        JSeparator sep = new JSeparator();
-        sep.setMaximumSize(new Dimension(200, 20));
-        sep.setForeground(Color.decode("#343A3F"));
-        return sep;
-    }
-
-    private JLabel getMenuJLabels(String text) {
-        JLabel jLabel = new JLabel(text.toUpperCase(), SwingConstants.CENTER);
-        jLabel.setPreferredSize(new Dimension(200, 20));
-        jLabel.setFont(new Font("Nunito", Font.PLAIN, 16));
-        jLabel.setForeground(Color.WHITE);
-        jLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        jLabel.addMouseListener(this);
-        return jLabel;
+    @Override
+    public void refreshCards() {
+        this.updateTeacherCount();
+        this.updateStudentCountCard();
+        this.updateAdminCountCard();
+        this.updateClassRulesCard();
+        this.updateClassRoomCard();
     }
 
     @Override
     protected void onCreate() {
         super.onCreate();
-        this.reFreshCards();
+        JOptionPane.showMessageDialog(new JFrame(), "You are loggedIn as Admin", "Success!!",
+                JOptionPane.INFORMATION_MESSAGE);
+        this.refreshCards();
     }
 
     private void updateAdminCountCard() {
@@ -169,27 +147,6 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     }
 
 
-    private void setUpLeftSideMenu(JPanel currentLayout) {
-        this.leftSidePanel = new JPanel();
-        leftSidePanel.setLayout(new BoxLayout(leftSidePanel, BoxLayout.Y_AXIS));
-        leftSidePanel.setPreferredSize(new Dimension(200, Constants.APP_PREFERRED_HEIGHT - 64));
-        leftSidePanel.setBackground(Color.decode("#343A3F"));
-        currentLayout.add(leftSidePanel);
-    }
-
-    public void reFreshCards() {
-        this.updateTeacherCount();
-        this.updateStudentCountCard();
-        this.updateAdminCountCard();
-        this.updateClassRulesCard();
-        this.updateClassRoomCard();
-    }
-
-    @Override
-    protected void onLeftButtonClicked() {
-        this.leftSidePanel.setVisible(!this.leftSidePanel.isVisible());
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getComponent().equals(this.logoutLabel)) this.onRightButtonClicked();
@@ -207,6 +164,8 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_ADD_ADMIN);
         } else if (e.getComponent().equals(this.classRules)) {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_CLASS_RULES);
+        } else if (e.getComponent().equals(this.classRooms)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_CLASS_ROOMS);
         }
     }
 
@@ -220,19 +179,5 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
 
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        if (e.getComponent().equals(this.homeLabel)) return;
-        JLabel jLabel = (JLabel) e.getComponent();
-        jLabel.setFont(new Font("Nunito", Font.BOLD, 20));
-        jLabel.setForeground(Color.ORANGE);
-    }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
-        if (e.getComponent().equals(this.homeLabel)) return;
-        JLabel jLabel = (JLabel) e.getComponent();
-        jLabel.setFont(new Font("Nunito", Font.PLAIN, 16));
-        jLabel.setForeground(Color.WHITE);
-    }
 }
