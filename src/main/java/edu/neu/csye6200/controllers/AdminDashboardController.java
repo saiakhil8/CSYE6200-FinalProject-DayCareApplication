@@ -40,6 +40,14 @@ public class AdminDashboardController extends AppViewsController {
                 appControlListener.onGoToNextScreenEvent(AddTeacherController.class);
                 break;
             }
+            case EVENT_GOTO_VIEW_TEACHER: {
+                appControlListener.onGoToNextScreenEvent(ViewAllTeachersController.class);
+                break;
+            }
+            case EVENT_GOTO_VIEW_STUDENT: {
+                appControlListener.onGoToNextScreenEvent(ViewAllStudentsController.class);
+                break;
+            }
         }
     }
 

@@ -20,6 +20,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
     protected JPanel navBar;
     private Component leftSideButton;
     private Component rightSideButton;
+    protected JLabel navTitle;
 
     /**
      * Main Constructor of the class
@@ -68,6 +69,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
         jLabel.setHorizontalAlignment(SwingUtilities.CENTER);
         jLabel.setForeground(Color.white);
         jLabel.setFont(new Font("amarnath", Font.BOLD, 14));
+        this.navTitle = jLabel;
         this.navBar.add(jLabel, BorderLayout.CENTER);
     }
 

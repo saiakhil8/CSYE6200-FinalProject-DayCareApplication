@@ -20,6 +20,7 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     private JLabel viewStudentsLabel;
     private JLabel viewTeachersLabel;
     private JLabel logoutLabel;
+    private JLabel homeLabel;
 
     public AdminDashboardLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
@@ -45,11 +46,11 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
 
     private void addItemsToLeftMenu() {
         this.leftSidePanel.add(this.getSpaceComponent());
-        JLabel label = this.getMenuJLabels("Home");
-        label.setFont(new Font("Nunito", Font.BOLD, 18));
-        label.setForeground(Color.decode("#F33E5B"));
-        label.addMouseListener(null);
-        this.leftSidePanel.add(label);
+        this.homeLabel = this.getMenuJLabels("Home");
+        homeLabel.setFont(new Font("Nunito", Font.BOLD, 18));
+        homeLabel.setForeground(Color.decode("#F33E5B"));
+        homeLabel.addMouseListener(null);
+        this.leftSidePanel.add(homeLabel);
         this.leftSidePanel.add(this.getSpaceComponent());
         this.addTeachersLabel = this.getMenuJLabels("Add Teachers");
         this.leftSidePanel.add(this.addTeachersLabel);
@@ -124,6 +125,10 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_ADD_STUDENT);
         } else if (e.getComponent().equals(this.addTeachersLabel)) {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_ADD_TEACHER);
+        } else if (e.getComponent().equals(this.viewTeachersLabel)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_TEACHER);
+        } else if (e.getComponent().equals(this.viewStudentsLabel)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_STUDENT);
         }
     }
 
@@ -139,6 +144,7 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        if (e.getComponent().equals(this.homeLabel)) return;
         JLabel jLabel = (JLabel) e.getComponent();
         jLabel.setFont(new Font("Nunito", Font.BOLD, 20));
         jLabel.setForeground(Color.ORANGE);
@@ -146,6 +152,7 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
 
     @Override
     public void mouseExited(MouseEvent e) {
+        if (e.getComponent().equals(this.homeLabel)) return;
         JLabel jLabel = (JLabel) e.getComponent();
         jLabel.setFont(new Font("Nunito", Font.PLAIN, 16));
         jLabel.setForeground(Color.WHITE);
