@@ -2,6 +2,7 @@ package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.models.Person;
 import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 import edu.neu.csye6200.views.ApplicationLayout;
 
@@ -79,5 +80,9 @@ public abstract class AppViewsController implements Listeners.EventListener {
 
     protected ApplicationLayout getCurrentFrame() {
         return this.currentFrame;
+    }
+
+    protected Person getCurrentLoggedInUser() {
+        return this.authenticationAndSessionManager.getCurrentPerson();
     }
 }
