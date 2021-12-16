@@ -1,5 +1,6 @@
 package edu.neu.csye6200.views;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -14,6 +15,11 @@ public class TeacherDashboardLayout extends DashboardLayout {
      */
     public TeacherDashboardLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
+    }
+
+    @Override
+    protected void addItemsToLeftMenu(JPanel leftSidePanel) {
+        super.addItemsToLeftMenu(leftSidePanel);
     }
 
     @Override
@@ -37,13 +43,5 @@ public class TeacherDashboardLayout extends DashboardLayout {
 
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
 
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
 }

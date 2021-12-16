@@ -35,7 +35,7 @@ public abstract class DashboardLayout extends NavBarLayout implements MouseListe
         this.mainPanel.add(mainAppLayout, BorderLayout.LINE_START);
         this.setUpLeftSideMenu(mainAppLayout);
         this.setLeftComponent(Constants.getIconPathFromName("list.png"), "Menu");
-        this.addItemsToLeftMenu();
+        this.addItemsToLeftMenu(this.leftSidePanel);
         this.mainAppLayout = mainAppLayout;
         this.setUpCards();
     }
@@ -54,13 +54,13 @@ public abstract class DashboardLayout extends NavBarLayout implements MouseListe
 
     protected abstract void setUpCards();
 
-    protected void addItemsToLeftMenu() {
-        this.leftSidePanel.add(this.getSpaceComponent());
+    protected void addItemsToLeftMenu(JPanel leftSidePanel) {
+        leftSidePanel.add(this.getSpaceComponent());
         this.homeLabel = this.getMenuJLabels("Home");
         homeLabel.setFont(new Font("Nunito", Font.BOLD, 18));
         homeLabel.setForeground(Color.decode("#F33E5B"));
         homeLabel.addMouseListener(null);
-        this.leftSidePanel.add(this.homeLabel);
+        leftSidePanel.add(this.homeLabel);
     }
 
     public abstract void refreshCards();
@@ -104,5 +104,15 @@ public abstract class DashboardLayout extends NavBarLayout implements MouseListe
         JLabel jLabel = (JLabel) e.getComponent();
         jLabel.setFont(new Font("Nunito", Font.PLAIN, 16));
         jLabel.setForeground(Color.WHITE);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
     }
 }

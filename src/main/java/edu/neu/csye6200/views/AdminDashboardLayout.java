@@ -78,8 +78,8 @@ public class AdminDashboardLayout extends DashboardLayout {
     }
 
     @Override
-    protected void addItemsToLeftMenu() {
-        super.addItemsToLeftMenu();
+    protected void addItemsToLeftMenu(JPanel leftSidePanel) {
+        super.addItemsToLeftMenu(leftSidePanel);
         this.leftSidePanel.add(this.getSpaceComponent());
         this.addTeachersLabel = this.getMenuJLabels("Add Teachers");
         this.leftSidePanel.add(this.addTeachersLabel);
@@ -167,16 +167,6 @@ public class AdminDashboardLayout extends DashboardLayout {
         } else if (e.getComponent().equals(this.classRooms)) {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_CLASS_ROOMS);
         }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
     }
 
 
