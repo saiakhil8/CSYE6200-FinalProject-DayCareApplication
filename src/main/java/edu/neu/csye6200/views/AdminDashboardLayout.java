@@ -2,6 +2,7 @@ package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.controllers.AdminDashboardController;
+import edu.neu.csye6200.views.CustomViews.DashboardCard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,12 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     private JLabel viewAdminsLabel;
     private JLabel logoutLabel;
     private JLabel homeLabel;
+    private JLabel classRules;
+    private DashboardCard teacherCountCard;
+    private DashboardCard studentCountCard;
+    private DashboardCard classRoomCountCard;
+    private DashboardCard adminCountCard;
+    private DashboardCard classRulesCard;
 
     public AdminDashboardLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
@@ -44,6 +51,45 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         this.setLeftComponent(Constants.getIconPathFromName("list.png"), "Menu");
         this.addItemsToLeftMenu();
         this.mainAppLayout = mainAppLayout;
+        this.setUpCards();
+    }
+
+    private void setUpCards() {
+        JPanel currentPanel = new JPanel(new GridBagLayout());
+        currentPanel.setOpaque(false);
+        currentPanel.setPreferredSize(new Dimension(Constants.APP_PREFERRED_WIDTH - 800, Constants.APP_PREFERRED_HEIGHT - 200));
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new Insets(8, 100, 32, 100);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 1;
+
+        this.studentCountCard = new DashboardCard("Students", 0, Color.GRAY, Color.BLACK, Color.ORANGE);
+        currentPanel.add(this.studentCountCard, gridBagConstraints);
+
+        gridBagConstraints.gridx++;
+        this.teacherCountCard = new DashboardCard("Teachers", 0, Color.GRAY, Color.BLACK, Color.BLUE);
+        currentPanel.add(this.teacherCountCard, gridBagConstraints);
+
+        gridBagConstraints.gridx++;
+        this.adminCountCard = new DashboardCard("Admins", 0, Color.GRAY, Color.BLACK, Color.BLUE);
+        currentPanel.add(this.adminCountCard, gridBagConstraints);
+
+
+        gridBagConstraints.gridy++;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.weighty = 6;
+        this.classRulesCard = new DashboardCard("Class Rules", 0, Color.GRAY, Color.BLACK, Color.BLUE);
+        currentPanel.add(this.classRulesCard, gridBagConstraints);
+
+        gridBagConstraints.gridx++;
+        this.classRoomCountCard = new DashboardCard("Classrooms", 0, Color.GRAY, Color.BLACK, Color.BLUE);
+        currentPanel.add(this.classRoomCountCard, gridBagConstraints);
+
+
+        this.mainAppLayout.add(currentPanel);
     }
 
     private void addItemsToLeftMenu() {
@@ -72,6 +118,9 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         this.viewAdminsLabel = this.getMenuJLabels("View Admins");
         this.leftSidePanel.add(this.viewAdminsLabel);
         this.leftSidePanel.add(this.getSpaceComponent());
+        this.classRules = this.getMenuJLabels("Class Rules");
+        this.leftSidePanel.add(this.classRules);
+        this.leftSidePanel.add(this.getSpaceComponent());
         this.logoutLabel = this.getMenuJLabels("Logout");
         this.leftSidePanel.add(this.logoutLabel);
     }
@@ -96,22 +145,32 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     @Override
     protected void onCreate() {
         super.onCreate();
-        JPanel currentPanel = new JPanel(new GridLayout(1, 3, 24, 24));
-        currentPanel.setPreferredSize(new Dimension(500, 120));
-        currentPanel.add(this.getDashBoardCard("Students", this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_STUDENT_COUNT)));
-        currentPanel.add(this.getDashBoardCard("Teacher", this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_TEACHER_COUNT)));
-        currentPanel.add(this.getDashBoardCard("Classrooms", this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_CLASSROOM_COUNT)));
-        this.mainAppLayout.add(currentPanel);
+        this.updateTeacherCount();
+        this.updateStudentCountCard();
+        this.updateAdminCountCard();
+        this.updateClassRulesCard();
     }
 
-    private Component getDashBoardCard(String title, int count) {
-        JPanel jPanel = new JPanel(new BorderLayout());
-        jPanel.setPreferredSize(new Dimension(120, 120));
-        jPanel.setBackground(Color.BLUE);
-        jPanel.add(new JLabel(title), BorderLayout.LINE_START);
-        jPanel.add(new JLabel(Integer.toString(count)), BorderLayout.CENTER);
-        return jPanel;
+    private void updateAdminCountCard() {
+        this.adminCountCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_ADMIN_COUNT));
     }
+
+    private void updateClassRoomCard() {
+        this.studentCountCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_CLASSROOM_COUNT));
+    }
+
+    private void updateClassRulesCard() {
+        this.classRulesCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_CLASS_RULES_COUNT));
+    }
+
+    private void updateStudentCountCard() {
+        this.studentCountCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_STUDENT_COUNT));
+    }
+
+    private void updateTeacherCount() {
+        this.teacherCountCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_TEACHER_COUNT));
+    }
+
 
     private void setUpLeftSideMenu(JPanel currentLayout) {
         this.leftSidePanel = new JPanel();
@@ -141,6 +200,8 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_ADMIN);
         } else if (e.getComponent().equals(this.addAdminsLabel)) {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_ADD_ADMIN);
+        } else if (e.getComponent().equals(this.classRules)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_CLASS_RULES);
         }
     }
 

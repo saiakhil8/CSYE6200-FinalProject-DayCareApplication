@@ -1,6 +1,8 @@
 package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
+import edu.neu.csye6200.repositories.AdminRepository;
+import edu.neu.csye6200.repositories.ClassRulesRepository;
 import edu.neu.csye6200.repositories.StudentRepository;
 import edu.neu.csye6200.repositories.TeacherRepository;
 import edu.neu.csye6200.views.AdminDashboardLayout;
@@ -14,10 +16,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminDashboardController extends AppViewsController {
 
+
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
+    private AdminRepository adminRepository;
+    @Autowired
+    private ClassRulesRepository classRulesRepository;
 
     @Override
     public ApplicationLayout getAppPage() {
@@ -56,6 +63,10 @@ public class AdminDashboardController extends AppViewsController {
                 appControlListener.onGoToNextScreenEvent(ViewAllAdminsController.class);
                 break;
             }
+            case EVENT_GOTO_CLASS_RULES: {
+                appControlListener.onGoToNextScreenEvent(ClassRulesCrudController.class);
+                break;
+            }
         }
     }
 
@@ -67,13 +78,15 @@ public class AdminDashboardController extends AppViewsController {
     public static final int REQUEST_TYPE_STUDENT_COUNT = 8001;
     public static final int REQUEST_TYPE_TEACHER_COUNT = 8002;
     public static final int REQUEST_TYPE_CLASSROOM_COUNT = 8003;
-    public static final int REQUEST_TYPE_GROUPS_COUNT = 8003;
+    public static final int REQUEST_TYPE_ADMIN_COUNT = 8004;
+    public static final int REQUEST_TYPE_CLASS_RULES_COUNT = 8005;
     public static final int EVENT_GOTO_ADD_TEACHER = 7002;
     public static final int EVENT_GOTO_ADD_STUDENT = 7003;
     public static final int EVENT_GOTO_VIEW_STUDENT = 7004;
     public static final int EVENT_GOTO_VIEW_TEACHER = 7005;
     public static final int EVENT_GOTO_VIEW_ADMIN = 7006;
     public static final int EVENT_GOTO_ADD_ADMIN = 7007;
+    public static final int EVENT_GOTO_CLASS_RULES = 7008;
 
     @Override
     public int getIntegerData(int dataType) {
@@ -82,6 +95,10 @@ public class AdminDashboardController extends AppViewsController {
                 return (int) this.studentRepository.count();
             case REQUEST_TYPE_TEACHER_COUNT:
                 return (int) this.teacherRepository.count();
+            case REQUEST_TYPE_ADMIN_COUNT:
+                return (int) this.adminRepository.count();
+            case REQUEST_TYPE_CLASS_RULES_COUNT:
+                return (int) this.classRulesRepository.count();
         }
         return super.getIntegerData(dataType);
     }
