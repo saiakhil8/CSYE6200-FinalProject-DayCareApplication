@@ -4,6 +4,8 @@ import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.models.Person;
 import edu.neu.csye6200.repositories.AdminRepository;
+import edu.neu.csye6200.repositories.StudentRepository;
+import edu.neu.csye6200.repositories.TeacherRepository;
 import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +37,12 @@ public class ApplicationController implements ApplicationContextAware, Listeners
     @Value("${application.preferredHeight}")
     private int preferredHeight;
 
-    //Session Aware -- OnLogin Page Will be cleared;
-    private boolean removeLoginPage = false;
-
     @Autowired
     private AdminRepository adminRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     private final AuthenticationAndSessionManager authenticationAndSessionManager;
 
@@ -103,6 +106,9 @@ public class ApplicationController implements ApplicationContextAware, Listeners
             case Constants.SESSION_ADMIN:
                 this.onGoToNextScreenEvent(AdminDashboardController.class);
                 break;
+            case Constants.SESSION_TEACHER:
+                this.onGoToNextScreenEvent(TeacherDashboardController.class);
+                break;
             default:
                 this.onGoToNextScreenEvent(LandingPageController.class);
         }
@@ -115,12 +121,12 @@ public class ApplicationController implements ApplicationContextAware, Listeners
 
     @Override
     public Person validateTeacher(String userName, String password) throws SQLException {
-        return null;
+        return teacherRepository.getByEmailIdAndPassword(userName, password);
     }
 
     @Override
     public Person validateParent(String userName, String password) throws SQLException {
-        return null;
+        return studentRepository.getByEmailIdAndPassword(userName, password);
     }
 
     private void logoutUser() {

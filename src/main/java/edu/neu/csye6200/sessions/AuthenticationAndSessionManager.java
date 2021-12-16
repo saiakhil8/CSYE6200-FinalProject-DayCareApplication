@@ -23,14 +23,27 @@ public class AuthenticationAndSessionManager {
     private AuthenticationAndSessionManager() {
     }
 
-    ;
-
     public void authenticate(String userName, String password, FunctionalUtilities.BiFunction<Boolean, String> result) {
         assert sessionManagementListener != null;
         try {
             this.currentPerson = sessionManagementListener.validateAdmin(userName, password);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if (this.currentPerson == null) {
+            try {
+                this.currentPerson = sessionManagementListener.validateTeacher(userName, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (this.currentPerson == null) {
+            try {
+                this.currentPerson = sessionManagementListener.validateParent(userName, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         if (this.currentPerson != null) {
