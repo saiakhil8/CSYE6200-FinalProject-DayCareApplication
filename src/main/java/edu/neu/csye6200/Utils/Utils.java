@@ -84,7 +84,7 @@ public class Utils {
         }
     }
 
-    public static Function<String, Integer> GET_AGE_FROM_DOB = (date) -> {
+    public static Function<String, Integer> GET_AGE_IN_MONTHS_FROM_DOB = (date) -> {
         LocalDate today = LocalDate.now();
         Date bDate = getDateFromString(date);
         Calendar calendar = Calendar.getInstance();
@@ -92,11 +92,11 @@ public class Utils {
         calendar.setTime(bDate);
         LocalDate birthday = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         Period p = Period.between(birthday, today);
-        return p.getMonths();
+        return p.getYears() * 12 + p.getMonths();
     };
 
     public static Function<String, String> GENERATE_PASSWORD = (string) -> {
-        if (string == null) return UUID.randomUUID().toString();
+        if (string == null) return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < 8; i++) {
