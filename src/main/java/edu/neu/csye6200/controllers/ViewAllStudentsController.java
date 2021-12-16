@@ -2,6 +2,7 @@ package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.Utils.Utils;
 import edu.neu.csye6200.models.ClassSections;
 import edu.neu.csye6200.models.Student;
@@ -34,11 +35,12 @@ public class ViewAllStudentsController extends AppViewsController {
     }
 
     private String[][] getDataForTable(List<Student> list) {
-        String[][] data = new String[list.size()][8];
+        String[][] data = new String[list.size()][9];
         for (int i = 0; i < list.size(); i++) {
             int j = 0;
             Student student = list.get(i);
             data[i][j++] = Integer.toString(i + 1);
+            data[i][j++] = Integer.toString(student.getId());
             data[i][j++] = student.getFirstName();
             data[i][j++] = student.getLastName();
             data[i][j++] = Integer.toString(student.getAge());
@@ -49,16 +51,26 @@ public class ViewAllStudentsController extends AppViewsController {
         return data;
     }
 
+    private FunctionalUtilities.BiFunction<Object, Object> UPDATE_GPA_FUN = (studentId, gpa) -> {
+        Optional<Student> studentOpt = studentRepository.findById((int) studentId);
+        if (studentOpt.isPresent()) {
+            Student student = studentOpt.get();
+            student.setGpa((double) gpa);
+            studentRepository.save(student);
+        }
+    };
+
     @Override
     protected void onCreate(Listeners.AppControlEventListener appControlListener) {
         super.onCreate(appControlListener);
-        String[] header = new String[]{"Sl.No", "First Name", "Last Name", "Age (Months)", "Parents Name", "Email Id", "GPA"};
+        String[] header = new String[]{"Sl.No", "Student Id", "First Name", "Last Name", "Age (Months)", "Parents Name", "Email Id", "GPA"};
         List<Student> studentList;
         if (this.getLoggedInUserType() == Constants.SESSION_ADMIN) studentList = studentRepository.findAll();
         else if (this.getLoggedInUserType() == Constants.SESSION_TEACHER) {
             studentList = this.getTeacherSpecificList();
         } else return;
         ((ViewAllDataLayout) this.getCurrentFrame()).setUpDataForTable(header, this.getDataForTable(studentList), "Students");
+        ((ViewAllDataLayout) this.getCurrentFrame()).setUpBiFunction(UPDATE_GPA_FUN);
     }
 
     private List<Student> getTeacherSpecificList() {
@@ -89,4 +101,6 @@ public class ViewAllStudentsController extends AppViewsController {
     protected void goToNextScreen(Listeners.AppControlEventListener appControlListener) {
 
     }
+
+
 }

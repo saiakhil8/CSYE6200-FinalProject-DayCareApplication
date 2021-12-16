@@ -50,7 +50,7 @@ public class Utils {
             return Double.parseDouble(text);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            return 0.0;
+            return -1.0;
         }
     }
 
