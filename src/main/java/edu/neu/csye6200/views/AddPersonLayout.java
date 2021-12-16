@@ -159,9 +159,7 @@ public abstract class AddPersonLayout extends NavBarLayout {
         this.setUpPersonFactory();
     }
 
-    protected void setUpPersonFactory() {
-        this.abstractPersonFactory = TeacherFactory.getInstance();
-    }
+    protected abstract void setUpPersonFactory();
 
     private void openFileDialogForCSVImport() {
         FileDialog dialog = new FileDialog((Frame) null, "Select a CSV file to import");
