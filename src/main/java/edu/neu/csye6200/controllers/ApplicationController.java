@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +38,11 @@ public class ApplicationController implements ApplicationContextAware, Listeners
     private int preferredWidth;
     @Value("${application.preferredHeight}")
     private int preferredHeight;
+    @Value("${spring.mail.username}")
+    private String emailFrom;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     private AdminRepository adminRepository;
@@ -74,7 +81,7 @@ public class ApplicationController implements ApplicationContextAware, Listeners
         Constants.APP_PREFERRED_WIDTH = this.preferredWidth;
         Constants.APP_NAME = this.appName;
         applicationStack = new Stack<>();
-        pushAndShowPage(applicationContext.getBean(AdminDashboardController.class));
+        pushAndShowPage(applicationContext.getBean(LandingPageController.class));
     }
 
     private void pushAndShowPage(AppViewsController controller){
@@ -147,5 +154,15 @@ public class ApplicationController implements ApplicationContextAware, Listeners
         } else if (eventType > 5010 && eventType < 5999) {
             this.onLogin();
         }
+    }
+
+    @Override
+    public void sendEmail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(this.emailFrom);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+        mailSender.send(message);
     }
 }

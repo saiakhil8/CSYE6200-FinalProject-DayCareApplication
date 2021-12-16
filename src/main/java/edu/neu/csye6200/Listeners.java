@@ -37,6 +37,8 @@ public class Listeners {
         Person validateParent(String userName, String password) throws SQLException;
 
         void onNewSessionEvent(int eventType);
+
+        void sendEmail(String to, String subject, String body);
     }
 
 }
