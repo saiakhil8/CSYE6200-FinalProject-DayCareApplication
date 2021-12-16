@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
-    public Teacher getByEmailIdAndPassword(String emailId, String password);
+    Teacher getByEmailIdAndPassword(String emailId, String password);
+
+    Teacher findTopByAssignedClassRoomIdOrderById(int assignedClass);
 }

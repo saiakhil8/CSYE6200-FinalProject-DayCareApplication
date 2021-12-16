@@ -269,16 +269,25 @@ public abstract class AddPersonLayout extends NavBarLayout {
     }
 
     private void addToDatabase() {
-        Person person = this.abstractPersonFactory.getObject(this.firstNameTextField.getActualText(),
-                this.lastNameTextField.getActualText(),
-                this.emailTextField.getActualText(),
-                this.dobTextField.getActualText(),
-                this.parentsNameTextField.getActualText(),
-                this.addressTextField.getActualText());
-        if (this.abstractPersonFactory instanceof TeacherFactory) {
-            ((Teacher) person).setCredits(Utils.parseInteger(this.creditsTextField.getActualText()));
-            ((Teacher) person).setHourlyWage(Utils.parseInteger(this.hourlyWageTextField.getActualText()));
+        Person person;
+        try {
+            person = this.abstractPersonFactory.getObject(this.firstNameTextField.getActualText(),
+                    this.lastNameTextField.getActualText(),
+                    this.emailTextField.getActualText(),
+                    this.dobTextField.getActualText(),
+                    this.parentsNameTextField.getActualText(),
+                    this.addressTextField.getActualText());
+            if (this.abstractPersonFactory instanceof TeacherFactory) {
+                ((Teacher) person).setCredits(Utils.parseInteger(this.creditsTextField.getActualText()));
+                ((Teacher) person).setHourlyWage(Utils.parseInteger(this.hourlyWageTextField.getActualText()));
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Error!!",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
         this.addToDatabase(person);
     }
 

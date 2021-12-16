@@ -1,10 +1,7 @@
 package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
-import edu.neu.csye6200.repositories.AdminRepository;
-import edu.neu.csye6200.repositories.ClassRulesRepository;
-import edu.neu.csye6200.repositories.StudentRepository;
-import edu.neu.csye6200.repositories.TeacherRepository;
+import edu.neu.csye6200.repositories.*;
 import edu.neu.csye6200.views.AdminDashboardLayout;
 import edu.neu.csye6200.views.ApplicationLayout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,8 @@ public class AdminDashboardController extends AppViewsController {
     private AdminRepository adminRepository;
     @Autowired
     private ClassRulesRepository classRulesRepository;
+    @Autowired
+    private ClassRoomRepository classRoomRepository;
 
     @Override
     public ApplicationLayout getAppPage() {
@@ -99,6 +98,8 @@ public class AdminDashboardController extends AppViewsController {
                 return (int) this.adminRepository.count();
             case REQUEST_TYPE_CLASS_RULES_COUNT:
                 return (int) this.classRulesRepository.count();
+            case REQUEST_TYPE_CLASSROOM_COUNT:
+                return (int) this.classRoomRepository.count();
         }
         return super.getIntegerData(dataType);
     }

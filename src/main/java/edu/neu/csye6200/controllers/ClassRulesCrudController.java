@@ -52,6 +52,7 @@ public class ClassRulesCrudController extends AppViewsController {
     }
 
     protected FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudFunction = (classRules, eventType) -> {
+        classRulesRepository.deleteAll();
         classRulesRepository.saveAll((List<ClassRules>) classRules);
         this.setUpTableData();
         return true;

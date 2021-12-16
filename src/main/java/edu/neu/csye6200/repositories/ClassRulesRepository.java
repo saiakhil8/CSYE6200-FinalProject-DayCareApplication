@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ClassRulesRepository extends JpaRepository<ClassRules, Integer> {
+    ClassRules findTopByMinAgeBeforeAndMaxAgeAfter(int age1, int age2);
 }

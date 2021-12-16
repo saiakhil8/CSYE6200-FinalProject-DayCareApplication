@@ -149,6 +149,7 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         this.updateStudentCountCard();
         this.updateAdminCountCard();
         this.updateClassRulesCard();
+        this.updateClassRoomCard();
     }
 
     private void updateAdminCountCard() {
@@ -156,7 +157,7 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     }
 
     private void updateClassRoomCard() {
-        this.studentCountCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_CLASSROOM_COUNT));
+        this.classRoomCountCard.setCount(this.eventListener.getIntegerData(AdminDashboardController.REQUEST_TYPE_CLASSROOM_COUNT));
     }
 
     private void updateClassRulesCard() {

@@ -12,8 +12,8 @@ public class Teacher extends Person {
     private int credits;
     @Column(name = "hourly_wage")
     private int hourlyWage;
-    @Column(name = "is_occupied")
-    private int isOccupied;
+    @Column(name = "assigned_class_room_id", columnDefinition = "int default 0")
+    private int assignedClassRoomId;
 
     public Teacher() {
     }
@@ -23,7 +23,6 @@ public class Teacher extends Person {
         this.credits = credits;
         this.hourlyWage = hourlyWage;
     }
-
 
     public int getCredits() {
         return credits;
@@ -41,19 +40,11 @@ public class Teacher extends Person {
         this.hourlyWage = hourlyWage;
     }
 
-    public int getIsOccupied() {
-        return isOccupied;
+    public int getAssignedClassRoomId() {
+        return assignedClassRoomId;
     }
 
-    public boolean isOccupied() {
-        return this.isOccupied == 1;
-    }
-
-    public void setIsOccupied(int isOccupied) {
-        this.isOccupied = isOccupied;
-    }
-
-    public void isOccupied(boolean isOccupied) {
-        this.isOccupied = (isOccupied) ? 1 : 0;
+    public void setAssignedClassRoomId(int assignedClassRoomId) {
+        this.assignedClassRoomId = assignedClassRoomId;
     }
 }

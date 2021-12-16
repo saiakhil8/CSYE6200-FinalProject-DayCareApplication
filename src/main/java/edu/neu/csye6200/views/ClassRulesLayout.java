@@ -69,6 +69,7 @@ public class ClassRulesLayout extends NavBarLayout {
     }
 
     public void setUpDataForTable(String[][] data) {
+        defaultTableModel.setRowCount(0);
         for (String[] datum : data) {
             defaultTableModel.addRow(datum);
         }
