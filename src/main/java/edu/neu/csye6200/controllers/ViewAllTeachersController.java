@@ -32,7 +32,7 @@ public class ViewAllTeachersController extends AppViewsController {
             data[i][j++] = Integer.toString(i + 1);
             data[i][j++] = teacher.getFirstName();
             data[i][j++] = teacher.getLastName();
-            data[i][j++] = Integer.toString(teacher.getAge());
+            data[i][j++] = Integer.toString(teacher.getAge() / 12);
             data[i][j++] = teacher.getParentFullName();
             data[i][j++] = teacher.getEmailId();
             data[i][j] = Integer.toString(teacher.getHourlyWage());
@@ -43,7 +43,7 @@ public class ViewAllTeachersController extends AppViewsController {
     @Override
     protected void onCreate(Listeners.AppControlEventListener appControlListener) {
         super.onCreate(appControlListener);
-        String[] header = new String[]{"Sl.No", "First Name", "Last Name", "Age", "Parents Name", "Email Id", "Hourly Wage"};
+        String[] header = new String[]{"Sl.No", "First Name", "Last Name", "Age(Years)", "Parents Name", "Email Id", "Hourly Wage"};
         ((ViewAllDataLayout) this.getCurrentFrame()).setUpDataForTable(header, this.getDataForTable(), "Teachers");
     }
 

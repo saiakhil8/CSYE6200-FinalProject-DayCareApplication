@@ -92,7 +92,7 @@ public class Utils {
         calendar.setTime(bDate);
         LocalDate birthday = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         Period p = Period.between(birthday, today);
-        return p.getYears();
+        return p.getMonths();
     };
 
     public static Function<String, String> GENERATE_PASSWORD = (string) -> {

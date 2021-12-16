@@ -44,7 +44,7 @@ public class ViewAllStudentsController extends AppViewsController {
     @Override
     protected void onCreate(Listeners.AppControlEventListener appControlListener) {
         super.onCreate(appControlListener);
-        String[] header = new String[]{"Sl.No", "First Name", "Last Name", "Age", "Parents Name", "Email Id", "GPA"};
+        String[] header = new String[]{"Sl.No", "First Name", "Last Name", "Age (Months)", "Parents Name", "Email Id", "GPA"};
         ((ViewAllDataLayout) this.getCurrentFrame()).setUpDataForTable(header, this.getDataForTable(), "Students");
     }
 
