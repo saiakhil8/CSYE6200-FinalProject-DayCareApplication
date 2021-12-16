@@ -124,10 +124,10 @@ public class ApplicationController implements ApplicationContextAware, Listeners
     }
 
     private void logoutUser() {
-        for (int i = 0; i < this.applicationStack.size() - 1; i++) {
+        for (int i = 0; i < this.applicationStack.size(); i++) {
             this.applicationStack.pop().onDestroy();
         }
-        this.applicationStack.peek().onPagePushedToForeground(this);
+        this.pushAndShowPage(applicationContext.getBean(LandingPageController.class));
     }
 
     @Override
