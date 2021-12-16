@@ -1,5 +1,7 @@
 package edu.neu.csye6200.views;
 
+import edu.neu.csye6200.controllers.TeacherDashboardController;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 
@@ -7,6 +9,10 @@ import java.awt.event.MouseEvent;
  * @author SaiAkhil
  */
 public class TeacherDashboardLayout extends DashboardLayout {
+
+    private JLabel viewStudentsLabel;
+    private JLabel logoutLabel;
+
     /**
      * Main Constructor of the class
      *
@@ -20,6 +26,12 @@ public class TeacherDashboardLayout extends DashboardLayout {
     @Override
     protected void addItemsToLeftMenu(JPanel leftSidePanel) {
         super.addItemsToLeftMenu(leftSidePanel);
+        leftSidePanel.add(this.getSpaceComponent());
+        this.viewStudentsLabel = this.getMenuJLabels("View Students");
+        this.leftSidePanel.add(this.viewStudentsLabel);
+        leftSidePanel.add(this.getSpaceComponent());
+        this.logoutLabel = this.getMenuJLabels("Logout");
+        leftSidePanel.add(this.logoutLabel);
     }
 
     @Override
@@ -40,7 +52,10 @@ public class TeacherDashboardLayout extends DashboardLayout {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getComponent().equals(this.logoutLabel)) this.onRightButtonClicked();
+        if (e.getComponent().equals(this.viewStudentsLabel)) {
+            this.eventListener.onEvent(TeacherDashboardController.EVENT_GOTO_VIEW_STUDENT);
+        }
     }
 
 
