@@ -12,6 +12,8 @@ public class Teacher extends Person {
     private int credits;
     @Column(name = "hourly_wage")
     private int hourlyWage;
+    @Column(name = "is_occupied")
+    private int isOccupied;
 
     public Teacher() {
     }
@@ -37,5 +39,21 @@ public class Teacher extends Person {
 
     public void setHourlyWage(int hourlyWage) {
         this.hourlyWage = hourlyWage;
+    }
+
+    public int getIsOccupied() {
+        return isOccupied;
+    }
+
+    public boolean isOccupied() {
+        return this.isOccupied == 1;
+    }
+
+    public void setIsOccupied(int isOccupied) {
+        this.isOccupied = isOccupied;
+    }
+
+    public void isOccupied(boolean isOccupied) {
+        this.isOccupied = (isOccupied) ? 1 : 0;
     }
 }
