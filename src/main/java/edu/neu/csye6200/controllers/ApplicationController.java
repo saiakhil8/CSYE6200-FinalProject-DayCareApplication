@@ -109,6 +109,9 @@ public class ApplicationController implements ApplicationContextAware, Listeners
             case Constants.SESSION_TEACHER:
                 this.onGoToNextScreenEvent(TeacherDashboardController.class);
                 break;
+            case Constants.SESSION_PARENT:
+                this.onGoToNextScreenEvent(StudentDashboardController.class);
+                break;
             default:
                 this.onGoToNextScreenEvent(LandingPageController.class);
         }
