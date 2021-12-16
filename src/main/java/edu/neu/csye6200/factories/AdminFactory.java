@@ -22,6 +22,19 @@ public class AdminFactory extends AbstractPersonFactory {
         return new Admin();
     }
 
+    @Override
+    public Person getObject(String line) {
+        String[] lines = line.split(",");
+        int i = 0;
+        Admin admin = new Admin(lines[i++],
+                lines[i++],
+                lines[i++],
+                lines[i++],
+                lines[i++],
+                lines[i++]);
+        return admin;
+    }
+
     public static AdminFactory getInstance() {
         if (mInstance == null) {
             synchronized (AdminFactory.class) {

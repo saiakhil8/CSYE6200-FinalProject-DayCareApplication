@@ -1,5 +1,6 @@
 package edu.neu.csye6200.factories;
 
+import edu.neu.csye6200.Utils.Utils;
 import edu.neu.csye6200.models.Person;
 import edu.neu.csye6200.models.Student;
 
@@ -22,6 +23,20 @@ public class StudentFactory extends AbstractPersonFactory {
     @Override
     public Person getObject() {
         return new Student();
+    }
+
+    @Override
+    public Person getObject(String line) {
+        String[] lines = line.split(",");
+        int i = 0;
+        Student student = new Student(lines[i++],
+                lines[i++],
+                lines[i++],
+                lines[i++],
+                lines[i++],
+                lines[i++],
+                Utils.parseDouble(lines[i]));
+        return student;
     }
 
     public static StudentFactory getInstance() {
