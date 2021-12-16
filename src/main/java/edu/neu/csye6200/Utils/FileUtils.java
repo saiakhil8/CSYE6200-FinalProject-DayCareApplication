@@ -37,11 +37,12 @@ public class FileUtils {
         }
     }
 
-    public static void readTxtFileLines(String filePath, Consumer<String> consumer) throws IOException {
+    public static void readTxtFileLines(String filePath, Consumer<String> consumer, Consumer<Boolean> result) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             for (String line; (line = reader.readLine()) != null; ) {
                 consumer.accept(line);
             }
+            result.accept(true);
         } catch (IOException e) {
             e.printStackTrace();
             throw new IOException("File is not valid");
