@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * @author SaiAkhil
  */
-public class AddStudentLayout extends AddTeacherLayout {
+public class AddStudentLayout extends AddPersonLayout {
     public AddStudentLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
     }

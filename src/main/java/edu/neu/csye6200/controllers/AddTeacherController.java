@@ -5,6 +5,7 @@ import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.models.Teacher;
 import edu.neu.csye6200.repositories.TeacherRepository;
+import edu.neu.csye6200.views.AddPersonLayout;
 import edu.neu.csye6200.views.AddTeacherLayout;
 import edu.neu.csye6200.views.ApplicationLayout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class AddTeacherController extends AppViewsController {
     @Override
     protected void onCreate(Listeners.AppControlEventListener appControlListener) {
         super.onCreate(appControlListener);
-        ((AddTeacherLayout) this.getCurrentFrame()).setDbCrudCallBack(dbCrudFunction);
+        ((AddPersonLayout) this.getCurrentFrame()).setDbCrudCallBack(dbCrudFunction);
     }
 
     protected FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudFunction = (teacher, eventType) -> {
