@@ -53,7 +53,7 @@ public abstract class NavBarLayout extends ApplicationLayout {
     /**
      * Set NavBarTitle -- ThreadSafe {Class variables will be initialized in initial threads not EventThreads}
      *
-     * @return -= title that needs to be set -- mark://can be nullable
+     * @return title that needs to be set -- mark://can be nullable
      */
     protected abstract String getNavBarTitle();
 
