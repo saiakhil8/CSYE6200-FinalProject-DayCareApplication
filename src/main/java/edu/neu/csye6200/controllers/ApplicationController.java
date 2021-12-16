@@ -74,7 +74,7 @@ public class ApplicationController implements ApplicationContextAware, Listeners
         Constants.APP_PREFERRED_WIDTH = this.preferredWidth;
         Constants.APP_NAME = this.appName;
         applicationStack = new Stack<>();
-        pushAndShowPage(applicationContext.getBean(LandingPageController.class));
+        pushAndShowPage(applicationContext.getBean(AdminDashboardController.class));
     }
 
     private void pushAndShowPage(AppViewsController controller){

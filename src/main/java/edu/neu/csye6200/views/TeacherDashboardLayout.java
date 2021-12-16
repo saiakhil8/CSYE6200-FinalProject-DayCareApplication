@@ -1,9 +1,11 @@
 package edu.neu.csye6200.views;
 
+import java.awt.event.MouseEvent;
+
 /**
  * @author SaiAkhil
  */
-public class TeacherDashboardLayout extends NavBarLayout {
+public class TeacherDashboardLayout extends DashboardLayout {
     /**
      * Main Constructor of the class
      *
@@ -17,5 +19,31 @@ public class TeacherDashboardLayout extends NavBarLayout {
     @Override
     protected String getNavBarTitle() {
         return "Teacher Dashboard";
+    }
+
+    @Override
+    protected void setUpCards() {
+
+    }
+
+    @Override
+    public void refreshCards() {
+
+    }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
     }
 }
