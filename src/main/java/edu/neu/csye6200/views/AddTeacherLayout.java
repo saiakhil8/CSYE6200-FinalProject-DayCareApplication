@@ -1,8 +1,10 @@
 package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.Utils.FileUtils;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.Utils.Utils;
+import edu.neu.csye6200.factories.AbstractPersonFactory;
 import edu.neu.csye6200.factories.TeacherFactory;
 import edu.neu.csye6200.models.Person;
 import edu.neu.csye6200.models.Teacher;
@@ -31,6 +33,7 @@ public class AddTeacherLayout extends NavBarLayout {
     private JButton addButton;
     private JButton importButton;
     private FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudCallBack;
+    protected AbstractPersonFactory abstractPersonFactory;
 
     public AddTeacherLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
@@ -148,6 +151,50 @@ public class AddTeacherLayout extends NavBarLayout {
                 validateUserInput();
             }
         });
+        this.importButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                AddTeacherLayout.this.openFileDialogForCSVImport();
+            }
+        });
+        this.setUpPersonFactory();
+    }
+
+    protected void setUpPersonFactory() {
+        this.abstractPersonFactory = TeacherFactory.getInstance();
+    }
+
+    private void openFileDialogForCSVImport() {
+        FileDialog dialog = new FileDialog((Frame) null, "Select a CSV file to import");
+        dialog.setFilenameFilter((dir, name) -> name.toLowerCase().endsWith(".csv"));
+        dialog.setMode(FileDialog.LOAD);
+        dialog.setVisible(true);
+        String file = dialog.getFile();
+        if (file == null) {
+            JOptionPane.showMessageDialog(new JFrame(), "No File Chosen", "Error!!",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(new JFrame(), "Starting file processing", "Success!!",
+                JOptionPane.INFORMATION_MESSAGE);
+        JDialog jDialog = Utils.geLoadingDialog("File is being processed");
+        jDialog.setVisible(true);
+        this.mainPanel.setVisible(false);
+        try {
+            FileUtils.readTxtFileLines(file, (line) -> {
+                if (!dbCrudCallBack.accept(AddTeacherLayout.this.abstractPersonFactory.getObject(line), 0)) {
+                    throw new RuntimeException("Something is not right while processing file");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            jDialog.dispose();
+            mainPanel.setVisible(true);
+            JOptionPane.showMessageDialog(new JFrame(), "Error while processing file, Try Again!!", "Error!!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     public void setDbCrudCallBack(FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudCallBack) {
@@ -209,15 +256,17 @@ public class AddTeacherLayout extends NavBarLayout {
         roundedTextField.requestFocus();
     }
 
-    protected void addToDatabase() {
-        Person person = TeacherFactory.getInstance().getObject(this.firstNameTextField.getActualText(),
+    private void addToDatabase() {
+        Person person = this.abstractPersonFactory.getObject(this.firstNameTextField.getActualText(),
                 this.lastNameTextField.getActualText(),
                 this.emailTextField.getActualText(),
                 this.dobTextField.getActualText(),
                 this.parentsNameTextField.getActualText(),
                 this.addressTextField.getActualText());
-        ((Teacher) person).setCredits(Utils.parseInteger(this.creditsTextField.getActualText()));
-        ((Teacher) person).setHourlyWage(Utils.parseInteger(this.hourlyWageTextField.getActualText()));
+        if (this.abstractPersonFactory instanceof TeacherFactory) {
+            ((Teacher) person).setCredits(Utils.parseInteger(this.creditsTextField.getActualText()));
+            ((Teacher) person).setHourlyWage(Utils.parseInteger(this.hourlyWageTextField.getActualText()));
+        }
         this.addToDatabase(person);
     }
 
@@ -239,14 +288,10 @@ public class AddTeacherLayout extends NavBarLayout {
         this.addressTextField.reset();
         if (this.getSuffixForAdd().equalsIgnoreCase("Teacher")) {
             this.creditsTextField.reset();
-            ;
             this.hourlyWageTextField.reset();
-            ;
         }
         this.dobTextField.reset();
-        ;
         this.parentsNameTextField.reset();
-        ;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package edu.neu.csye6200.views;
 
 import edu.neu.csye6200.factories.StudentFactory;
-import edu.neu.csye6200.models.Person;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,14 +19,8 @@ public class AddStudentLayout extends AddTeacherLayout {
     }
 
     @Override
-    protected void addToDatabase() {
-        Person person = StudentFactory.getInstance().getObject(this.firstNameTextField.getActualText(),
-                this.lastNameTextField.getActualText(),
-                this.emailTextField.getActualText(),
-                this.dobTextField.getActualText(),
-                this.parentsNameTextField.getActualText(),
-                this.addressTextField.getActualText());
-        this.addToDatabase(person);
+    protected void setUpPersonFactory() {
+        this.abstractPersonFactory = StudentFactory.getInstance();
     }
 
     @Override

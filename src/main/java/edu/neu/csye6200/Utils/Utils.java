@@ -45,6 +45,15 @@ public class Utils {
         }
     }
 
+    public static Double parseDouble(String text) {
+        try {
+            return Double.parseDouble(text);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0.0;
+        }
+    }
+
     public static boolean isDateValid(String text, boolean isDob) {
         try {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
