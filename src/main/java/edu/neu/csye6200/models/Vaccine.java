@@ -1,5 +1,7 @@
 package edu.neu.csye6200.models;
 
+import edu.neu.csye6200.Utils.Utils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,6 +33,20 @@ public class Vaccine {
     private String extraDoses;
 
     public Vaccine() {
+    }
+
+    public Vaccine(String[] cols) {
+        this(cols[0],
+                Utils.parseInteger(cols[1]),
+                Utils.parseInteger(cols[2]),
+                Utils.parseInteger(cols[3]),
+                Utils.parseInteger(cols[4]),
+                Utils.parseInteger(cols[5]),
+                cols[5]);
+    }
+
+    public Vaccine(String line) {
+        this(line.split(","));
     }
 
     public Vaccine(String vaccineName, int noOfDoses, int firstDoseGap, int secondDoseGap, int thirdDoseGap, int fourthDoseGap, String extraDoses) {

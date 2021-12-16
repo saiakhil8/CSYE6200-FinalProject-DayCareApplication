@@ -4,7 +4,6 @@ import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.Utils.FileUtils;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.Utils.Utils;
-import edu.neu.csye6200.models.ClassRules;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * @author SaiAkhil
  */
-public class ClassRulesLayout extends NavBarLayout {
+public class ViewAndReImportLayout extends NavBarLayout {
 
     private FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudCallBack;
     private DefaultTableModel defaultTableModel;
@@ -30,7 +29,7 @@ public class ClassRulesLayout extends NavBarLayout {
      * @param imagePathOrColor which needs to be used as background
      * @param backgroundType   is type of background {Example: Image or Color}
      */
-    public ClassRulesLayout(String imagePathOrColor, int backgroundType) {
+    public ViewAndReImportLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
     }
 
@@ -38,7 +37,22 @@ public class ClassRulesLayout extends NavBarLayout {
     protected void initComponents() {
         super.initComponents();
         this.setLeftComponent(Constants.getIconPathFromName("back-button.png"), "Back");
-        this.defaultTableModel = new DefaultTableModel(new String[4][0], new String[]{"Class Id", "Age Group", "Max Groups Per Class", "Student Teacher Ration"});
+    }
+
+    @Override
+    protected String getNavBarTitle() {
+        return "View";
+    }
+
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+    }
+
+    private void setUpTable(String[] header, String[][] data, String title) {
+        this.navTitle.setText(title);
+        this.defaultTableModel = new DefaultTableModel(data, header);
+        //new DefaultTableModel(new String[4][0], new String[]{"Class Id", "Age Group", "Max Groups Per Class", "Student Teacher Ration"});
         JTable table = new JTable(defaultTableModel);
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setBackground(Color.yellow);
@@ -54,11 +68,6 @@ public class ClassRulesLayout extends NavBarLayout {
         reImportButton.setForeground(Color.BLACK);
         this.mainPanel.add(reImportButton, BorderLayout.PAGE_END);
 
-    }
-
-    @Override
-    protected void onCreate() {
-        super.onCreate();
         reImportButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -68,8 +77,9 @@ public class ClassRulesLayout extends NavBarLayout {
         });
     }
 
-    public void setUpDataForTable(String[][] data) {
-        defaultTableModel.setRowCount(0);
+    public void setUpDataForTable(String[] header, String[][] data, String title) {
+        if (defaultTableModel != null) defaultTableModel.setRowCount(0);
+        else this.setUpTable(header, data, title);
         for (String[] datum : data) {
             defaultTableModel.addRow(datum);
         }
@@ -93,11 +103,9 @@ public class ClassRulesLayout extends NavBarLayout {
         jDialog.setVisible(true);
         this.mainPanel.setVisible(false);
         try {
-            List<ClassRules> list = new ArrayList<>();
-            FileUtils.readTxtFileLines(dialog.getDirectory() + file, (line) -> {
-                list.add(new ClassRules(line));
-            }, (result) -> {
-                ClassRulesLayout.this.dbCrudCallBack.accept(list, 0);
+            List<String> list = new ArrayList<>();
+            FileUtils.readTxtFileLines(dialog.getDirectory() + file, list::add, (result) -> {
+                ViewAndReImportLayout.this.dbCrudCallBack.accept(list, 0);
                 jDialog.dispose();
                 mainPanel.setVisible(true);
                 JOptionPane.showMessageDialog(new JFrame(), "File processed successfully", "Success!!",
@@ -115,10 +123,5 @@ public class ClassRulesLayout extends NavBarLayout {
 
     public void setDbCrudCallBack(FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudCallBack) {
         this.dbCrudCallBack = dbCrudCallBack;
-    }
-
-    @Override
-    protected String getNavBarTitle() {
-        return "Class Rules";
     }
 }

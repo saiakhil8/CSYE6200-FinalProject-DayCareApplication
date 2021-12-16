@@ -27,6 +27,7 @@ public class AdminDashboardLayout extends DashboardLayout {
     private DashboardCard classRoomCountCard;
     private DashboardCard adminCountCard;
     private DashboardCard classRulesCard;
+    private JLabel vaccinesLabel;
 
     public AdminDashboardLayout(String imagePathOrColor, int backgroundType) {
         super(imagePathOrColor, backgroundType);
@@ -105,6 +106,9 @@ public class AdminDashboardLayout extends DashboardLayout {
         this.classRooms = this.getMenuJLabels("Class Rooms");
         this.leftSidePanel.add(this.classRooms);
         this.leftSidePanel.add(this.getSpaceComponent());
+        this.vaccinesLabel = this.getMenuJLabels("Vaccines");
+        this.leftSidePanel.add(this.vaccinesLabel);
+        this.leftSidePanel.add(this.getSpaceComponent());
         this.logoutLabel = this.getMenuJLabels("Logout");
         this.leftSidePanel.add(this.logoutLabel);
     }
@@ -166,6 +170,8 @@ public class AdminDashboardLayout extends DashboardLayout {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_CLASS_RULES);
         } else if (e.getComponent().equals(this.classRooms)) {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_CLASS_ROOMS);
+        } else if (e.getComponent().equals(this.vaccinesLabel)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_VACCINES);
         }
     }
 

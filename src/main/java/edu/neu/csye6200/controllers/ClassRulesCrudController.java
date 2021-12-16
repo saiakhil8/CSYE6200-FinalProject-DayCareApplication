@@ -5,7 +5,7 @@ import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.models.ClassRules;
 import edu.neu.csye6200.repositories.ClassRulesRepository;
 import edu.neu.csye6200.views.ApplicationLayout;
-import edu.neu.csye6200.views.ClassRulesLayout;
+import edu.neu.csye6200.views.ViewAndReImportLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class ClassRulesCrudController extends AppViewsController {
 
     @Override
     public ApplicationLayout getAppPage() {
-        return new ClassRulesLayout("./src/main/resources/daycare_landing_background.jpg", ApplicationLayout.BACKGROUND_TYPE_IMAGE);
+        return new ViewAndReImportLayout("./src/main/resources/daycare_landing_background.jpg", ApplicationLayout.BACKGROUND_TYPE_IMAGE);
     }
 
     private String[][] generateData() {
@@ -43,17 +43,19 @@ public class ClassRulesCrudController extends AppViewsController {
     protected void onCreate(Listeners.AppControlEventListener appControlListener) {
         super.onCreate(appControlListener);
         this.setUpTableData();
-        ((ClassRulesLayout) this.getCurrentFrame()).setDbCrudCallBack(dbCrudFunction);
+        ((ViewAndReImportLayout) this.getCurrentFrame()).setDbCrudCallBack(dbCrudFunction);
     }
 
     private void setUpTableData() {
-        String[] header = new String[]{"Class Id", "Age Group", "Max Groups Per Class", "Student Teacher Ration"};
-        ((ClassRulesLayout) this.getCurrentFrame()).setUpDataForTable(this.generateData());
+        String[] header = new String[]{"Class Id", "Age Group", "Max Groups Per Class", "Student Teacher Ratio"};
+        ((ViewAndReImportLayout) this.getCurrentFrame()).setUpDataForTable(header, this.generateData(), "Class Rules");
     }
 
     protected FunctionalUtilities.BiFunctionWithReturnType<Object, Integer, Boolean> dbCrudFunction = (classRules, eventType) -> {
         classRulesRepository.deleteAll();
-        classRulesRepository.saveAll((List<ClassRules>) classRules);
+        ((List<String>) classRules).forEach(line -> {
+            classRulesRepository.save(new ClassRules(line));
+        });
         this.setUpTableData();
         return true;
     };
