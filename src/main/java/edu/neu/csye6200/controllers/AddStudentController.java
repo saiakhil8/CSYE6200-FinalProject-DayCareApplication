@@ -39,6 +39,6 @@ public class AddStudentController extends AppViewsController {
 
     @Override
     protected void goToNextScreen(Listeners.AppControlEventListener appControlListener) {
-
+        appControlListener.onGoToNextScreenEvent(ViewAllStudentsController.class);
     }
 }

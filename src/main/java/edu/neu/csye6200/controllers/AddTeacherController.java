@@ -38,6 +38,6 @@ public class AddTeacherController extends AppViewsController {
 
     @Override
     protected void goToNextScreen(Listeners.AppControlEventListener appControlListener) {
-
+        appControlListener.onGoToNextScreenEvent(ViewAllTeachersController.class);
     }
 }

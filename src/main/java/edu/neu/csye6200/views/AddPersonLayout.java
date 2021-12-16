@@ -142,6 +142,7 @@ public abstract class AddPersonLayout extends NavBarLayout {
     protected void onCreate() {
         super.onCreate();
         this.mainPanel.requestFocus();
+        this.setUpPersonFactory();
         this.addButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -156,7 +157,17 @@ public abstract class AddPersonLayout extends NavBarLayout {
                 AddPersonLayout.this.openFileDialogForCSVImport();
             }
         });
-        this.setUpPersonFactory();
+        this.viewAllButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                AddPersonLayout.this.onViewAllClicked();
+            }
+        });
+    }
+
+    private void onViewAllClicked() {
+        this.eventListener.onEvent(Constants.EVENT_NEXT_SCREEN);
     }
 
     protected abstract void setUpPersonFactory();
