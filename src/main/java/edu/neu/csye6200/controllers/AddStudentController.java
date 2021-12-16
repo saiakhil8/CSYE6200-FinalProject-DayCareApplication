@@ -12,6 +12,7 @@ import edu.neu.csye6200.repositories.ClassRoomRepository;
 import edu.neu.csye6200.repositories.ClassRulesRepository;
 import edu.neu.csye6200.repositories.StudentRepository;
 import edu.neu.csye6200.repositories.TeacherRepository;
+import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 import edu.neu.csye6200.views.AddStudentLayout;
 import edu.neu.csye6200.views.ApplicationLayout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,8 @@ public class AddStudentController extends AppViewsController {
         Student temp = studentRepository.save((Student) student);
         threadManager.getFixedPoolThread().execute(() -> {
             mapStudentToClass(temp);
+            AuthenticationAndSessionManager.getInstance().sendEmail(((Student) student).getEmailId(), "Daycare Account created", "" +
+                    "Hi,\n\n Your Account created and mapped to a class & teahcer. Your Password is " + ((Student) student).getPassword() + " .Login for more details. \n\n Thanks");
         });
         return true;
     };
