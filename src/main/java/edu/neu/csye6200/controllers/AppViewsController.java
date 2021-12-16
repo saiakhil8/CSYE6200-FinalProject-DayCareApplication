@@ -60,6 +60,7 @@ public abstract class AppViewsController implements Listeners.EventListener {
 
     protected void onDestroy() {
         this.onPagePushedToBackground();
+        this.currentFrame.dispose();
         this.currentFrame = null;
     }
 
