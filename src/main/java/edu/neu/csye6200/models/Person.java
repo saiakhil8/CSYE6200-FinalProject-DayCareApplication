@@ -33,7 +33,7 @@ public abstract class Person {
     private String lastUpdated;
     @Column(name = "created_on", nullable = false)
     private String createdOn;
-    @Column(name = "last_login", nullable = true)
+    @Column(name = "last_login")
     private String lastLogin;
     @Column(name = "address")
     private String address;
@@ -133,7 +133,7 @@ public abstract class Person {
         this.lastUpdated = Utils.GET_DATE_STRING.apply(new Date());
         this.createdOn = this.lastUpdated;
         this.address = address;
-        this.age = Utils.GET_AGE_FROM_DOB.apply(dateOfBirth);
+        this.age = Utils.GET_AGE_IN_MONTHS_FROM_DOB.apply(dateOfBirth);
     }
 
     public int getAge() {

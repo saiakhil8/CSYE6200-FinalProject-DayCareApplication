@@ -6,12 +6,14 @@ import edu.neu.csye6200.repositories.AdminRepository;
 import edu.neu.csye6200.views.ApplicationLayout;
 import edu.neu.csye6200.views.ViewAllDataLayout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author SaiAkhil
  */
+@Service
 public class ViewAllAdminsController extends AppViewsController {
 
     @Autowired
@@ -31,7 +33,7 @@ public class ViewAllAdminsController extends AppViewsController {
             data[i][j++] = Integer.toString(i + 1);
             data[i][j++] = admin.getFirstName();
             data[i][j++] = admin.getLastName();
-            data[i][j++] = Integer.toString(admin.getAge());
+            data[i][j++] = Integer.toString(admin.getAge() / 12);
             data[i][j++] = admin.getParentFullName();
             data[i][j] = admin.getEmailId();
         }

@@ -17,8 +17,10 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     private JPanel leftSidePanel;
     private JLabel addTeachersLabel;
     private JLabel addStudentsLabel;
+    private JLabel addAdminsLabel;
     private JLabel viewStudentsLabel;
     private JLabel viewTeachersLabel;
+    private JLabel viewAdminsLabel;
     private JLabel logoutLabel;
     private JLabel homeLabel;
 
@@ -58,11 +60,17 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         this.addStudentsLabel = this.getMenuJLabels("Add Students");
         this.leftSidePanel.add(this.addStudentsLabel);
         this.leftSidePanel.add(this.getSpaceComponent());
+        this.addAdminsLabel = this.getMenuJLabels("Add Admins");
+        this.leftSidePanel.add(this.addAdminsLabel);
+        this.leftSidePanel.add(this.getSpaceComponent());
         this.viewTeachersLabel = this.getMenuJLabels("View Teachers");
         this.leftSidePanel.add(this.viewTeachersLabel);
         this.leftSidePanel.add(this.getSpaceComponent());
         this.viewStudentsLabel = this.getMenuJLabels("View Students");
         this.leftSidePanel.add(this.viewStudentsLabel);
+        this.leftSidePanel.add(this.getSpaceComponent());
+        this.viewAdminsLabel = this.getMenuJLabels("View Admins");
+        this.leftSidePanel.add(this.viewAdminsLabel);
         this.leftSidePanel.add(this.getSpaceComponent());
         this.logoutLabel = this.getMenuJLabels("Logout");
         this.leftSidePanel.add(this.logoutLabel);
@@ -129,6 +137,10 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_TEACHER);
         } else if (e.getComponent().equals(this.viewStudentsLabel)) {
             this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_STUDENT);
+        } else if (e.getComponent().equals(this.viewAdminsLabel)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_VIEW_ADMIN);
+        } else if (e.getComponent().equals(this.addAdminsLabel)) {
+            this.eventListener.onEvent(AdminDashboardController.EVENT_GOTO_ADD_ADMIN);
         }
     }
 

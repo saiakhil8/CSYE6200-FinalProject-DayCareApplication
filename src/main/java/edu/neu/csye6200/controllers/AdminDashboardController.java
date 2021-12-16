@@ -48,6 +48,14 @@ public class AdminDashboardController extends AppViewsController {
                 appControlListener.onGoToNextScreenEvent(ViewAllStudentsController.class);
                 break;
             }
+            case EVENT_GOTO_ADD_ADMIN: {
+                appControlListener.onGoToNextScreenEvent(AddAdminController.class);
+                break;
+            }
+            case EVENT_GOTO_VIEW_ADMIN: {
+                appControlListener.onGoToNextScreenEvent(ViewAllAdminsController.class);
+                break;
+            }
         }
     }
 
@@ -64,6 +72,8 @@ public class AdminDashboardController extends AppViewsController {
     public static final int EVENT_GOTO_ADD_STUDENT = 7003;
     public static final int EVENT_GOTO_VIEW_STUDENT = 7004;
     public static final int EVENT_GOTO_VIEW_TEACHER = 7005;
+    public static final int EVENT_GOTO_VIEW_ADMIN = 7006;
+    public static final int EVENT_GOTO_ADD_ADMIN = 7007;
 
     @Override
     public int getIntegerData(int dataType) {
