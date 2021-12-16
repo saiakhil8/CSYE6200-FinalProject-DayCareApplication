@@ -1,6 +1,6 @@
 package edu.neu.csye6200.repositories;
 
-import edu.neu.csye6200.models.ClassRoom;
+import edu.neu.csye6200.models.ClassSections;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
  * @author SaiAkhil
  */
 @Repository
-public interface ClassRoomRepository extends JpaRepository<ClassRoom, Integer> {
+public interface ClassRoomRepository extends JpaRepository<ClassSections, Integer> {
 
-    ClassRoom findTopByMinAgeBeforeAndMaxAgeAfterOrderByClassRoomId(int age1, int age2);
+    ClassSections findTopByMinAgeBeforeAndMaxAgeAfterOrderByClassRoomId(int age1, int age2);
 
     long countAllByTeacherIdsContainingAndClassRuleIdNotLike(String teacherId, int classRuleId);
 }

@@ -4,8 +4,8 @@ import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.ThreadManager;
 import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
-import edu.neu.csye6200.models.ClassRoom;
 import edu.neu.csye6200.models.ClassRules;
+import edu.neu.csye6200.models.ClassSections;
 import edu.neu.csye6200.models.Student;
 import edu.neu.csye6200.models.Teacher;
 import edu.neu.csye6200.repositories.ClassRoomRepository;
@@ -55,35 +55,35 @@ public class AddStudentController extends AppViewsController {
     };
 
     private void mapStudentToClass(Student student) {
-        ClassRoom classRoom = classRoomRepository.findTopByMinAgeBeforeAndMaxAgeAfterOrderByClassRoomId(student.getAge() + 1, student.getAge() - 1);
-        if (classRoom == null || classRoom.getCurrentCapacity() >= classRoom.getMaxClassSize()) {
+        ClassSections classSections = classRoomRepository.findTopByMinAgeBeforeAndMaxAgeAfterOrderByClassRoomId(student.getAge() + 1, student.getAge() - 1);
+        if (classSections == null || classSections.getCurrentCapacity() >= classSections.getMaxCapacity()) {
             ClassRules classRules = classRulesRepository.findTopByMinAgeBeforeAndMaxAgeAfter(student.getAge() + 1, student.getAge() - 1);
             Teacher finalized = teacherRepository.findTopByAssignedClassRoomIdOrderById(0);
             if (finalized == null) {
                 System.out.println("No teachers available to assist");
                 return;
             }
-            classRoom = new ClassRoom(classRules.getClassId(), classRules.getMinAge(),
+            classSections = new ClassSections(classRules.getClassId(), classRules.getMinAge(),
                     classRules.getMaxAge(), classRules.getMaxGroupsPerClassRoom() * classRules.getStudentTeacherRation(),
                     classRules.getStudentTeacherRation(), String.format("#%d#", student.getId()),
                     student.getFirstName(), String.format("#%d#", finalized.getId()), finalized.getFirstName());
-            classRoomRepository.save(classRoom);
-            finalized.setAssignedClassRoomId(classRoom.getClassRoomId());
+            classRoomRepository.save(classSections);
+            finalized.setAssignedClassRoomId(classSections.getClassRoomId());
             teacherRepository.save(finalized);
             return;
         }
-        if (classRoom.getCurrentCapacity() % classRoom.getGroupSize() != 0) {
-            classRoom.addStudent(student.getId(), student.getFirstName());
-            classRoomRepository.save(classRoom);
+        if (classSections.getCurrentCapacity() % classSections.getGroupSize() != 0) {
+            classSections.addStudent(student.getId(), student.getFirstName());
+            classRoomRepository.save(classSections);
         } else {
             Teacher finalized = teacherRepository.findTopByAssignedClassRoomIdOrderById(0);
             if (finalized == null) {
                 System.out.println("No teachers available to assist");
                 return;
             }
-            classRoom.addStudent(student.getId(), student.getFirstName(), finalized.getId(), finalized.getFirstName());
-            finalized.setAssignedClassRoomId(classRoom.getClassRoomId());
-            classRoomRepository.save(classRoom);
+            classSections.addStudent(student.getId(), student.getFirstName(), finalized.getId(), finalized.getFirstName());
+            finalized.setAssignedClassRoomId(classSections.getClassRoomId());
+            classRoomRepository.save(classSections);
             teacherRepository.save(finalized);
         }
     }
