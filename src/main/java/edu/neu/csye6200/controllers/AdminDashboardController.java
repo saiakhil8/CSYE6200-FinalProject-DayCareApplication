@@ -88,6 +88,12 @@ public class AdminDashboardController extends AppViewsController {
     public static final int EVENT_GOTO_CLASS_RULES = 7008;
 
     @Override
+    protected void onPagePushedToForeground(Listeners.AppControlEventListener appControlListener) {
+        super.onPagePushedToForeground(appControlListener);
+        ((AdminDashboardLayout) this.getCurrentFrame()).reFreshCards();
+    }
+
+    @Override
     public int getIntegerData(int dataType) {
         switch (dataType) {
             case REQUEST_TYPE_STUDENT_COUNT:

@@ -145,11 +145,7 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
     @Override
     protected void onCreate() {
         super.onCreate();
-        this.updateTeacherCount();
-        this.updateStudentCountCard();
-        this.updateAdminCountCard();
-        this.updateClassRulesCard();
-        this.updateClassRoomCard();
+        this.reFreshCards();
     }
 
     private void updateAdminCountCard() {
@@ -179,6 +175,14 @@ public class AdminDashboardLayout extends NavBarLayout implements MouseListener 
         leftSidePanel.setPreferredSize(new Dimension(200, Constants.APP_PREFERRED_HEIGHT - 64));
         leftSidePanel.setBackground(Color.decode("#343A3F"));
         currentLayout.add(leftSidePanel);
+    }
+
+    public void reFreshCards() {
+        this.updateTeacherCount();
+        this.updateStudentCountCard();
+        this.updateAdminCountCard();
+        this.updateClassRulesCard();
+        this.updateClassRoomCard();
     }
 
     @Override
