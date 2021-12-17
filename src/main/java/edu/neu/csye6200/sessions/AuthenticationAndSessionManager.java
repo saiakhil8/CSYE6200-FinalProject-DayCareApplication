@@ -20,7 +20,7 @@ public class AuthenticationAndSessionManager {
     private Person currentPerson;
     private Listeners.SessionManager sessionManagementListener;
 
-    private int reqData = 56;
+    private int reqData = 0;
 
     private AuthenticationAndSessionManager() {
     }
