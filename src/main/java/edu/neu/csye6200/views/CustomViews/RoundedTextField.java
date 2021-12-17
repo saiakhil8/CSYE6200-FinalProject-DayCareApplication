@@ -48,7 +48,16 @@ public class RoundedTextField extends JTextField implements FocusListener {
 
     private void setPlaceHolder() {
         this.setText(this.placeHolder);
-        this.setForeground(Color.GRAY);
+        this.setForeground((this.placeHolder.startsWith("Dose")) ? Color.RED : Color.GRAY);
+    }
+
+    @Override
+    public void setText(String t) {
+        if (t.startsWith("Dose")) {
+            this.placeHolder = t;
+            this.setForeground(Color.RED);
+        } else if (!t.equals(placeHolder)) this.setForeground(Color.BLACK);
+        super.setText(t);
     }
 
     public void setIsPassword(boolean isPassword) {

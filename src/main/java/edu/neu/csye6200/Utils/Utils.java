@@ -74,6 +74,11 @@ public class Utils {
         return dateFormat.format(date);
     };
 
+    public static String getDateString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.format(date);
+    }
+
     public static Date getDateFromString(String text) {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
@@ -82,6 +87,14 @@ public class Utils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Date getDateAfterDays(Date date, int days) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, days);
+        return c.getTime();
     }
 
     public static Function<String, Integer> GET_AGE_IN_MONTHS_FROM_DOB = (date) -> {

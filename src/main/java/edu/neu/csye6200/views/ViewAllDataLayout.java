@@ -3,6 +3,7 @@ package edu.neu.csye6200.views;
 import edu.neu.csye6200.Utils.Constants;
 import edu.neu.csye6200.Utils.FunctionalUtilities;
 import edu.neu.csye6200.Utils.Utils;
+import edu.neu.csye6200.controllers.ViewAllStudentsController;
 import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 
 import javax.swing.*;
@@ -72,10 +73,12 @@ public class ViewAllDataLayout extends NavBarLayout implements ListSelectionList
             if (rc == 0) {
                 this.showDialogForUpdatingGpa(studentId, table.getSelectedRow());
             } else if (rc == 1) {
-
+                AuthenticationAndSessionManager.getInstance().setReqData(studentId);
+                this.eventListener.onEvent(ViewAllStudentsController.EVENT_GOTO_IMMUNIZATION);
             }
         }
     }
+
 
     private FunctionalUtilities.BiFunction<Object, Object> biFunction;
 

@@ -50,7 +50,7 @@ public class Vaccine {
     }
 
     public Vaccine(String vaccineName, int noOfDoses, int firstDoseGap, int secondDoseGap, int thirdDoseGap, int fourthDoseGap, String extraDoses) {
-        this.vaccineName = vaccineName;
+        this.vaccineName = vaccineName.toUpperCase();
         this.noOfDoses = noOfDoses;
         this.firstDoseGap = firstDoseGap;
         this.secondDoseGap = secondDoseGap;

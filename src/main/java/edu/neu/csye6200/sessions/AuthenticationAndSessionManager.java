@@ -20,7 +20,21 @@ public class AuthenticationAndSessionManager {
     private Person currentPerson;
     private Listeners.SessionManager sessionManagementListener;
 
+    private int reqData = 56;
+
     private AuthenticationAndSessionManager() {
+    }
+
+    public int getReqData() {
+        return reqData;
+    }
+
+    public void setReqData(int data) {
+        this.reqData = data;
+    }
+
+    public void sendEmail(String to, String subject, String body) {
+        if (sessionManagementListener != null) sessionManagementListener.sendEmail(to, subject, body);
     }
 
     public void authenticate(String userName, String password, FunctionalUtilities.BiFunction<Boolean, String> result) {

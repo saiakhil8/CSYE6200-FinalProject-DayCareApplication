@@ -102,5 +102,14 @@ public class ViewAllStudentsController extends AppViewsController {
 
     }
 
+    @Override
+    protected void processEvent(int eventType, Listeners.AppControlEventListener appControlListener) {
+        super.processEvent(eventType, appControlListener);
+        if (eventType == EVENT_GOTO_IMMUNIZATION)
+            appControlListener.onGoToNextScreenEvent(ImmunizationController.class);
+    }
+
+    public static int EVENT_GOTO_IMMUNIZATION = 817810;
+
 
 }
