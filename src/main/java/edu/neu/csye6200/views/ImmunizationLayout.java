@@ -153,7 +153,7 @@ public class ImmunizationLayout extends NavBarLayout implements MouseListener {
         gridBagConstraints.gridx = 3;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         jPanel.add(this.csvImport, gridBagConstraints);
-        this.setVisible(false);
+        this.csvImport.setVisible(false);
 
         this.mainPanel.add(jPanel, BorderLayout.LINE_START);
     }

@@ -79,7 +79,10 @@ public class ViewAndReImportLayout extends NavBarLayout {
 
     public void setUpDataForTable(String[] header, String[][] data, String title) {
         if (defaultTableModel != null) defaultTableModel.setRowCount(0);
-        else this.setUpTable(header, data, title);
+        else {
+            this.setUpTable(header, data, title);
+            return;
+        }
         for (String[] datum : data) {
             defaultTableModel.addRow(datum);
         }
