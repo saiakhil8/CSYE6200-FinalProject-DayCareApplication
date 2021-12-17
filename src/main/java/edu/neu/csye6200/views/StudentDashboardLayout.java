@@ -17,6 +17,7 @@ public class StudentDashboardLayout extends DashboardLayout {
 
     private JLabel viewImmunizationLabel;
     private JLabel logoutLabel;
+    private JLabel reviewTeacher;
     private DashboardCard teacherIdCard;
     private DashboardCard classRoomIdCard;
     private DashboardCard gpaCard;
@@ -39,6 +40,9 @@ public class StudentDashboardLayout extends DashboardLayout {
         leftSidePanel.add(this.getSpaceComponent());
         this.viewImmunizationLabel = this.getMenuJLabels("View Immunization");
         this.leftSidePanel.add(this.viewImmunizationLabel);
+        leftSidePanel.add(this.getSpaceComponent());
+        this.reviewTeacher = this.getMenuJLabels("Review Teacher");
+        this.leftSidePanel.add(this.reviewTeacher);
         leftSidePanel.add(this.getSpaceComponent());
         this.logoutLabel = this.getMenuJLabels("Logout");
         leftSidePanel.add(this.logoutLabel);
@@ -71,7 +75,7 @@ public class StudentDashboardLayout extends DashboardLayout {
         gridBagConstraints.gridy++;
         gridBagConstraints.gridx = 0;
         gridBagConstraints.weighty = 6;
-        this.teacherIdCard = new DashboardCard("Teacher Name", "NA", Color.GRAY, Color.BLACK, Color.BLUE);
+        this.teacherIdCard = new DashboardCard("Teacher Name", "NA", Color.GRAY, Color.WHITE, Color.BLUE);
         currentPanel.add(this.teacherIdCard, gridBagConstraints);
 
         gridBagConstraints.gridx++;
@@ -108,5 +112,9 @@ public class StudentDashboardLayout extends DashboardLayout {
         if (e.getComponent().equals(this.logoutLabel)) super.onRightButtonClicked();
         if (e.getComponent().equals(this.viewImmunizationLabel))
             super.eventListener.onEvent(Constants.EVENT_NEXT_SCREEN);
+        if (e.getComponent().equals(this.reviewTeacher)) {
+            JOptionPane.showMessageDialog(new JFrame(), "Teacher Review will be open after year", "Error!!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

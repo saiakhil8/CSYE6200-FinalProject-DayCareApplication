@@ -145,6 +145,7 @@ public class ImmunizationController extends AppViewsController {
             immunizationTracker.setUpcomingDueDateMessage(message);
             immunizationTracker.setUpcomingDueDate(Utils.getDateString(leastDate));
             immunizationRepository.save(immunizationTracker);
+            AuthenticationAndSessionManager.getInstance().sendEmail(student.getEmailId(), "Vaccination Alert from daycare", message + " " + immunizationTracker.getUpcomingDueDate());
         } else {
             Date least;
             vaccineName = "HIB";
@@ -176,6 +177,7 @@ public class ImmunizationController extends AppViewsController {
             immunizationTracker.setUpcomingDueDateMessage(message);
             immunizationTracker.setUpcomingDueDate(Utils.getDateString(least));
             immunizationRepository.save(immunizationTracker);
+            AuthenticationAndSessionManager.getInstance().sendEmail(student.getEmailId(), "Vaccination Alert from daycare", message + " " + immunizationTracker.getUpcomingDueDate());
         }
 
     }

@@ -94,6 +94,7 @@ public class StudentDashboardController extends AppViewsController {
             immunizationTracker.setUpcomingDueDate(Utils.getDateString(least));
             immunizationDue = immunizationTracker.getUpcomingDueDate();
             immunizationRepository.save(immunizationTracker);
+            AuthenticationAndSessionManager.getInstance().sendEmail(student.getEmailId(), "Vaccination Alert from daycare", immunizationMessage + " " + immunizationDue);
         }
         ((StudentDashboardLayout) this.getCurrentFrame()).refreshCards(immunizationMessage, immunizationDue);
     }
