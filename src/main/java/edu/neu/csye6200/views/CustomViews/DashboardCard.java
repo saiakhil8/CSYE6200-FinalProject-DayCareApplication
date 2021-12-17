@@ -11,6 +11,7 @@ import java.awt.*;
 public class DashboardCard extends JPanel {
     private String title;
     private int count;
+    private String textMain;
     private Color backgroundColor;
     private Color titleColor;
     private Color countColor;
@@ -62,6 +63,17 @@ public class DashboardCard extends JPanel {
         this.initComponents();
     }
 
+    public DashboardCard(String title, String textMain, Color backgroundColor, Color titleColor, Color countColor) {
+        super(new GridBagLayout());
+        this.setOpaque(false);
+        this.title = title;
+        this.textMain = textMain;
+        this.titleColor = titleColor;
+        this.backgroundColor = backgroundColor;
+        this.countColor = countColor;
+        this.initComponents();
+    }
+
     private void initComponents() {
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         this.setPreferredSize(new Dimension(200, 150));
@@ -77,7 +89,7 @@ public class DashboardCard extends JPanel {
 
         gridBagConstraints.gridx++;
         gridBagConstraints.weightx = 1;
-        this.countLabel = new JLabel(Integer.toString(count));
+        this.countLabel = new JLabel((textMain != null) ? textMain : Integer.toString(count));
         this.countLabel.setFont(new Font("oswald", Font.BOLD, 40));
         this.countLabel.setForeground(countColor);
         this.add(countLabel, gridBagConstraints);
@@ -87,6 +99,17 @@ public class DashboardCard extends JPanel {
     public void setCount(int count) {
         this.count = count;
         this.countLabel.setText(Integer.toString(count));
+    }
+
+    public void setMainText(String text) {
+        this.textMain = textMain;
+        this.countLabel.setText(text);
+        this.countLabel.setFont(new Font("oswald", Font.BOLD, 20));
+    }
+
+    public void setTitleText(String text) {
+        this.title = text;
+        this.titleLabel.setText(text);
     }
 
     @Override

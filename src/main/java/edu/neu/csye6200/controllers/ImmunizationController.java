@@ -61,12 +61,13 @@ public class ImmunizationController extends AppViewsController {
         Vaccine tempVaccine;
         ImmunizationTracker immunizationTracker = immunizationRepository.findTopByStudentId(AuthenticationAndSessionManager.getInstance().getReqData());
         String vaccineName = null;
+
         if (immunizationTracker != null) {
             Map<String, Object> master = immunizationTracker.getImmunizationDetailsMap();
             Map<String, String> temp = new HashMap<>();
             Date leastDate = null;
             String[] tempString = new String[1];
-            if (master.containsKey("hib")) {
+            if (master != null && master.containsKey("hib")) {
                 temp = (Map<String, String>) master.get("hib");
                 String[] hib = new String[4];
                 leastDate = this.validateDates(hib, temp, vaccineRepository.findByVaccineName("HIB"), student.getDateOfBirth());
@@ -79,7 +80,7 @@ public class ImmunizationController extends AppViewsController {
             }
 
             Date gap = null;
-            if (master.containsKey("dtap")) {
+            if (master != null && master.containsKey("dtap")) {
                 temp = (Map<String, String>) master.get("dtap");
                 String[] dtap = new String[4];
                 gap = this.validateDates(dtap, temp, vaccineRepository.findByVaccineName("DTAP"), student.getDateOfBirth());
@@ -94,7 +95,7 @@ public class ImmunizationController extends AppViewsController {
                 vaccineName = "DTAP";
             }
 
-            if (master.containsKey("hepatitisb")) {
+            if (master != null && master.containsKey("hepatitisb")) {
                 temp = (Map<String, String>) master.get("hepatitisb");
                 String[] hb = new String[3];
                 gap = this.validateDates(hb, temp, vaccineRepository.findByVaccineName("HEPATITIS B"), student.getDateOfBirth());
@@ -114,7 +115,7 @@ public class ImmunizationController extends AppViewsController {
             }
 
             String mmr = null;
-            if (master.containsKey("mmr")) {
+            if (master != null && master.containsKey("mmr")) {
                 mmr = (String) master.get("mmr");
             } else {
                 tempVaccine = vaccineRepository.findByVaccineName("MMR");
@@ -126,7 +127,7 @@ public class ImmunizationController extends AppViewsController {
                 }
             }
             String varicella = null;
-            if (master.containsKey("varicella")) {
+            if (master != null && master.containsKey("varicella")) {
                 varicella = (String) master.get("varicella");
             } else {
                 tempVaccine = vaccineRepository.findByVaccineName("varicella".toUpperCase());
@@ -196,7 +197,7 @@ public class ImmunizationController extends AppViewsController {
             int gap = getGapBasedOnIndex(i + 1, vaccine);
             Date date;
             if (i == 0) date = Utils.getDateAfterDays(Utils.getDateFromString(dob), gap);
-            date = Utils.getDateAfterDays(Utils.getDateFromString(data[i - 1]), gap);
+            else date = Utils.getDateAfterDays(Utils.getDateFromString(data[i - 1]), gap);
             data[i] = "Dose " + (i + 1) + " Next Due: " + Utils.getDateString(date);
         }
         return null;

@@ -12,5 +12,7 @@ public interface ClassRoomRepository extends JpaRepository<ClassSections, Intege
 
     ClassSections findTopByMinAgeBeforeAndMaxAgeAfterOrderByClassRoomId(int age1, int age2);
 
+    ClassSections findTopByStudentIdsContaining(String studentId);
+
     long countAllByTeacherIdsContainingAndClassRuleIdNotLike(String teacherId, int classRuleId);
 }
