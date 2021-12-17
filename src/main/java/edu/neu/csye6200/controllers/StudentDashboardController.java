@@ -2,15 +2,21 @@ package edu.neu.csye6200.controllers;
 
 import edu.neu.csye6200.Listeners;
 import edu.neu.csye6200.Utils.Constants;
+import edu.neu.csye6200.Utils.Utils;
 import edu.neu.csye6200.models.ClassSections;
 import edu.neu.csye6200.models.ImmunizationTracker;
+import edu.neu.csye6200.models.Student;
 import edu.neu.csye6200.repositories.ClassRoomRepository;
 import edu.neu.csye6200.repositories.ImmunizationRepository;
+import edu.neu.csye6200.repositories.VaccineRepository;
 import edu.neu.csye6200.sessions.AuthenticationAndSessionManager;
 import edu.neu.csye6200.views.ApplicationLayout;
 import edu.neu.csye6200.views.StudentDashboardLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.function.Consumer;
 
 /**
  * @author SaiAkhil
@@ -22,6 +28,8 @@ public class StudentDashboardController extends AppViewsController {
     private ClassRoomRepository classRoomRepository;
     @Autowired
     private ImmunizationRepository immunizationRepository;
+    @Autowired
+    private VaccineRepository vaccineRepository;
 
     @Override
     public ApplicationLayout getAppPage() {
@@ -48,8 +56,52 @@ public class StudentDashboardController extends AppViewsController {
         if (immunizationTracker != null) {
             immunizationDue = immunizationTracker.getUpcomingDueDate();
             immunizationMessage = immunizationTracker.getUpcomingDueDateMessage();
+        } else {
+            Date least;
+            Student student = (Student) this.getCurrentLoggedInUser();
+            String vaccineName = "HIB";
+            Date temp = this.getNextDueDate(student.getDateOfBirth(), vaccineRepository.findByVaccineName("HIB").getFirstDoseGap(), (str) -> {
+            });
+            least = temp;
+            temp = this.getNextDueDate(student.getDateOfBirth(), vaccineRepository.findByVaccineName("DTAP").getFirstDoseGap(), (str) -> {
+            });
+            if (least.compareTo(temp) > 0) {
+                least = temp;
+                vaccineName = "DTAP";
+            }
+            temp = this.getNextDueDate(student.getDateOfBirth(), vaccineRepository.findByVaccineName("HEPATITIS B").getFirstDoseGap(), (str) -> {
+            });
+            if (least.compareTo(temp) > 0) {
+                least = temp;
+                vaccineName = "HEPATITIS B";
+            }
+            temp = this.getNextDueDate(student.getDateOfBirth(), vaccineRepository.findByVaccineName("MMR").getFirstDoseGap(), (str) -> {
+            });
+            if (least.compareTo(temp) > 0) {
+                least = temp;
+                vaccineName = "MMR";
+            }
+            temp = this.getNextDueDate(student.getDateOfBirth(), vaccineRepository.findByVaccineName("varicella".toUpperCase()).getFirstDoseGap(), (str) -> {
+            });
+            if (least.compareTo(temp) > 0) {
+                least = temp;
+                vaccineName = "varicella".toUpperCase();
+            }
+            immunizationMessage = vaccineName + " Next Due On";
+            immunizationTracker = new ImmunizationTracker();
+            immunizationTracker.setStudentId(student.getId());
+            immunizationTracker.setUpcomingDueDateMessage(immunizationMessage);
+            immunizationTracker.setUpcomingDueDate(Utils.getDateString(least));
+            immunizationDue = immunizationTracker.getUpcomingDueDate();
+            immunizationRepository.save(immunizationTracker);
         }
         ((StudentDashboardLayout) this.getCurrentFrame()).refreshCards(immunizationMessage, immunizationDue);
+    }
+
+    private Date getNextDueDate(String dob, int gap, Consumer<String> consumer) {
+        Date date = Utils.getDateAfterDays(Utils.getDateFromString(dob), gap);
+        consumer.accept("Dose 1 Next Due: " + Utils.getDateString(date));
+        return date;
     }
 
     private void initData() {
