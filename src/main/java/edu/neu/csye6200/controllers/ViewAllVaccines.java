@@ -34,7 +34,7 @@ public class ViewAllVaccines extends AppViewsController {
 
     private void setUpTableData() {
         String[] header = new String[]{"Id", "Vaccine Name", "Doses", "Gap1", "Gap2", "Gap3", "Gap4", "Extras"};
-        ((ViewAndReImportLayout) this.getCurrentFrame()).setUpDataForTable(header, this.generateData(), "Class Rules");
+        ((ViewAndReImportLayout) this.getCurrentFrame()).setUpDataForTable(header, this.generateData(), "View Vaccines");
     }
 
     private String[][] generateData() {
