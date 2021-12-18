@@ -52,7 +52,6 @@ public class ViewAndReImportLayout extends NavBarLayout {
     private void setUpTable(String[] header, String[][] data, String title) {
         this.navTitle.setText(title);
         this.defaultTableModel = new DefaultTableModel(data, header);
-        //new DefaultTableModel(new String[4][0], new String[]{"Class Id", "Age Group", "Max Groups Per Class", "Student Teacher Ration"});
         JTable table = new JTable(defaultTableModel);
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setBackground(Color.yellow);

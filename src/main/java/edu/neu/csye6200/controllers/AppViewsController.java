@@ -20,7 +20,7 @@ public abstract class AppViewsController implements Listeners.EventListener {
     public abstract ApplicationLayout getAppPage();
 
     protected void onPagePushedToBackground() {
-        this.currentFrame.onLostFocus();
+        if (this.currentFrame != null) this.currentFrame.onLostFocus();
         this.appControlListener = null;
     }
 
