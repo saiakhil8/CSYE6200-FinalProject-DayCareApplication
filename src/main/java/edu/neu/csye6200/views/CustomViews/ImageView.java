@@ -1,4 +1,4 @@
-package edu.neu.csye6200.views;
+package edu.neu.csye6200.views.CustomViews;
 
 import org.springframework.lang.NonNull;
 
@@ -15,7 +15,7 @@ public class ImageView extends JPanel {
     private final String imagePathOrColor;
     private Dimension dimension;
 
-    protected ImageView(CustomPainter customPainter, String imagePathOrColor){
+    public ImageView(CustomPainter customPainter, String imagePathOrColor) {
         super(new BorderLayout());
         this.customPainter = customPainter;
         this.imagePathOrColor = imagePathOrColor;
@@ -40,7 +40,7 @@ public class ImageView extends JPanel {
         void paint(Graphics g, @NonNull String s, Dimension dimension);
     }
 
-    protected static CustomPainter IMAGE_PAINTER = (graphics, imagePath,dimension)->{
+    public static CustomPainter IMAGE_PAINTER = (graphics, imagePath, dimension) -> {
         try {
             final Image backgroundImage = javax.imageio.ImageIO.read(new File(imagePath));
             graphics.drawImage(backgroundImage, 0, 0, (int) dimension.getWidth(), (int) dimension.getHeight(), null);
@@ -49,7 +49,7 @@ public class ImageView extends JPanel {
         }
     };
 
-    protected static CustomPainter GRADIENT_PAINTER = (graphics, color,dimension)->{
+    public static CustomPainter GRADIENT_PAINTER = (graphics, color, dimension) -> {
         Graphics2D g2d = (Graphics2D) graphics;
         Color color1 = Color.decode(color);
         Color color2 = color1.darker();

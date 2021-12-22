@@ -11,18 +11,24 @@ public class ThreadManager {
     private static ThreadManager mInstance;
 
     private Executor mainThread;
+    private Executor fixedPoolThread;
 
-    private ThreadManager(){
-        this.mainThread = Executors.newSingleThreadExecutor();
+    private ThreadManager() {
     }
 
     public Executor getMainThreadExecutor() {
+        if (mainThread == null) this.mainThread = Executors.newSingleThreadExecutor();
         return mainThread;
     }
 
-    public static synchronized ThreadManager getInstance(){
-        if (mInstance==null){
-            synchronized (ThreadManager.class){
+    public Executor getFixedPoolThread() {
+        if (fixedPoolThread == null) this.fixedPoolThread = Executors.newFixedThreadPool(3);
+        return fixedPoolThread;
+    }
+
+    public static synchronized ThreadManager getInstance() {
+        if (mInstance == null) {
+            synchronized (ThreadManager.class) {
                 mInstance = new ThreadManager();
             }
         }
